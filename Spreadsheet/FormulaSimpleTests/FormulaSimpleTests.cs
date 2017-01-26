@@ -159,6 +159,19 @@ namespace FormulaTestCases
         {
             Formula f = new Formula("6+3-(4/2)+$");
         }
+
+        [TestMethod]
+        public void ConstructorTestWithPlusandVar()
+        {
+            Formula f = new Formula("x + y");
+        }
+
+        [TestMethod]
+        public void ConsturtorTestWithADecimal()
+        {
+            Formula f = new Formula("2.3 + 4");
+        }
+
         /// <summary>
         /// Makes sure that "2+3" evaluates to 5.  Since the Formula
         /// contains no variables, the delegate passed in as the

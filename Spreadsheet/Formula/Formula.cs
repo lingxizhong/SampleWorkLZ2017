@@ -141,23 +141,141 @@ namespace Formulas
         public double Evaluate(Lookup lookup)
         {
             Stack<String> operatorStack = new Stack<string>();
-            Stack<String> operandStack = new Stack<string>();
+            Stack<double> operandStack = new Stack<double>();
+            double result = 0;
             foreach (string inputStringE in GetTokens(formulaPass))
             {
-                if (Regex.IsMatch(inputStringE, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
+                if (inputStringE.Equals("+") || inputStringE.Equals("-"))
                 {
-                    operandStack.Push(inputStringE);
+                    // Execution if t is add "+" or subtract "-"
+                    if (operatorStack.Count != 0)
+                    {
+                        if (operatorStack.Peek().Equals("+") || operatorStack.Peek().Equals("-"))
+                        {
+                            double opValue1 = operandStack.Pop();
+                            double opValue2 = operandStack.Pop();
+                            string opFunc = operatorStack.Pop();
+                            if (opFunc.Equals("+"))
+                            {
+                                operandStack.Push(opValue1 + opValue2);
+                            }
+                            if (opFunc.Equals("-"))
+                            {
+                                operandStack.Push(opValue1 - opValue2);
+                            }
+                        }
+                    }
+                    operatorStack.Push(inputStringE);
                 }
-                else
+
+                if (inputStringE.Equals("*") || inputStringE.Equals("/"))
                 {
-                    operatorStack.Push(inputStringE); 
+                    // Execution if t is multiply "*" or divide "/"
+                    operatorStack.Push(inputStringE);
                 }
-                if(operandStack.Count > 2)
+
+                if (inputStringE.Equals("("))
                 {
+                    // Execution if t is "(" open parenthesis
+                    operatorStack.Push(inputStringE);
+                }
+
+                if (inputStringE.Equals(")"))
+                {
+                    // Execution if t is close parenthesis ")"
+                    if (operatorStack.Peek().Equals("+") || operatorStack.Peek().Equals("-"))
+                    {
+                        double opValue1 = operandStack.Pop();
+                        double opValue2 = operandStack.Pop();
+                        string opFunc = operatorStack.Pop();
+                        if (opFunc.Equals("+"))
+                        {
+                            operandStack.Push(opValue1 + opValue2);
+                        }
+                        if (opFunc.Equals("-"))
+                        {
+                            operandStack.Push(opValue1 - opValue2);
+                        }
+                    }
+                    if (operatorStack.Peek().Equals("("))
+                    {
+                        operatorStack.Pop();
+                    }
+                    if (operatorStack.Peek().Equals("*") || operatorStack.Peek().Equals("/"))
+                    {
+                        double opValue1 = operandStack.Pop();
+                        double opValue2 = operandStack.Pop();
+                        string opFunc = operatorStack.Pop();
+                        if (opFunc.Equals("*"))
+                        {
+                            operandStack.Push(opValue1 * opValue2);
+                        }
+                        if (opFunc.Equals("/"))
+                        {
+                            operandStack.Push(opValue1 / opValue2);
+                        }
+                    }
 
                 }
+                // If t is a number or variable:
+                double inputValue = 0;
+                Boolean flag = Double.TryParse(inputStringE, out inputValue);
+                if (Regex.IsMatch(inputStringE, @"[a-zA-Z][0-9a-zA-Z]*") && flag == false)
+                {
+                    // If t is a variable:
+                    try
+                    {
+                        inputValue = lookup(inputStringE);
+                    }
+                    catch(UndefinedVariableException)
+                    {
+                        throw new FormulaEvaluationException("Variable is not defined");
+                    }
+                }
+                if (operatorStack.Count != 0)
+                {
+                    if (operatorStack.Peek().Equals("*") || operatorStack.Peek().Equals("/"))
+                    {
+                        double tempValue = operandStack.Pop();
+                        string operatorS = operatorStack.Pop();
+                        if (operatorS.Equals("*"))
+                        {
+                            operandStack.Push(inputValue * tempValue);
+                        }
+                        else
+                        {
+                            if (tempValue == 0)
+                            {
+                                throw new FormulaEvaluationException("Cannot divide by zero");
+                            }
+                            operandStack.Push(inputValue / tempValue);
+                        }
+                    }
+                }
+                operandStack.Push(inputValue);
+                
             }
-            return 0;
+
+            if (operatorStack.Count == 1)
+            {
+                double opValue1 = operandStack.Pop();
+                double opValue2 = operandStack.Pop();
+                string opFunc = operatorStack.Pop();
+                if (opFunc.Equals("+"))
+                {
+                    operandStack.Push(opValue1 + opValue2);
+                }
+                if (opFunc.Equals("-"))
+                {
+                    operandStack.Push(opValue1 - opValue2);
+                }
+            }
+            if (operatorStack.Count == 0)
+            {
+                result = operandStack.Pop();
+            }
+
+            return result;
         }
 
         /// <summary>
