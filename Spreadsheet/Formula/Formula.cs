@@ -226,6 +226,10 @@ namespace Formulas
                             }
                             if (opFunc.Equals("/"))
                             {
+                                if (opValue1 == 0)
+                                {
+                                    throw new FormulaEvaluationException("Cannot Divide by Zero");
+                                }
                                 operandStack.Push(opValue2 / opValue1);
                                 continue;
                             }
