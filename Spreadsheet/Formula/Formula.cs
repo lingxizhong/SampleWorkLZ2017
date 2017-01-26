@@ -15,6 +15,7 @@ namespace Formulas
     /// </summary>
     public class Formula
     {
+        private string formulaPass;
         /// <summary>
         /// Creates a Formula from a string that consists of a standard infix expression composed
         /// from non-negative floating-point numbers (using C#-like syntax for double/int literals), 
@@ -37,6 +38,96 @@ namespace Formulas
         /// </summary>
         public Formula(String formula)
         {
+            formulaPass = formula;
+            int length = 0;
+            Stack<String> stringStack = new Stack<string>();
+            int openParenth = 0;
+            int closeParenth = 0; 
+            foreach (string inputString in GetTokens(formula))
+            {
+                Console.Write(inputString); // For Testing only, remember to take out
+                if(inputString.Equals("(") || inputString.Equals(")"))
+                {
+                    if(inputString.Equals("("))
+                    {
+                        openParenth++;
+                        if(length == 0)
+                        {
+                            stringStack.Push(inputString);
+                        }
+                        length++;
+                        
+                    }
+                    if(inputString.Equals(")"))
+                    {
+                        closeParenth++;
+                    }
+                    if(closeParenth > openParenth)
+                    {
+                        throw new FormulaFormatException("Syntax Error: Parenthesis in wrong order");
+                    }
+                    continue;
+                }
+                if(inputString.Equals("+") || inputString.Equals("-") || inputString.Equals("*") || inputString.Equals("/"))
+                {
+                    if(length == 0)
+                    {
+                        throw new FormulaFormatException("Syntax Error: Cannot start formula with operator");
+                    }
+                    if(length > 1)
+                    {
+                        string previousString = stringStack.Peek();
+                        if(previousString.Equals("+") || previousString.Equals("-") || previousString.Equals("*") || previousString.Equals("/"))
+                        {
+                            throw new FormulaFormatException("Syntax Error: Cannot have 2 operators in sequence");
+                        }
+                    }
+                    stringStack.Push(inputString);
+                    length++;
+                }
+                else
+                {
+
+                    if (length == 0)
+                    {
+                        if (!Regex.IsMatch(inputString, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
+                        {
+                            throw new FormulaFormatException("Invalid Token Received");
+                        }
+                        stringStack.Push(inputString);
+                        length++;
+                        continue;
+                    }
+                    string previousString = stringStack.Peek();
+                    if (Regex.IsMatch(previousString, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
+                    {
+                        throw new FormulaFormatException("Syntax Error: 2 operands in sequence");
+                    }
+                    
+                    if(Regex.IsMatch(inputString, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
+                    {
+                        stringStack.Push(inputString);
+                        length++;
+                        continue;
+                    }
+                    throw new FormulaFormatException("Invalid Token Received");
+
+                }
+            }
+            if(closeParenth != openParenth)
+            {
+                throw new FormulaFormatException("Invalid parenthesis placement");
+            }
+            if (length == 0)
+            {
+                throw new FormulaFormatException("Must have atleast one token");
+            }
+            string lastString = stringStack.Peek();
+            if (lastString.Equals("+") || lastString.Equals("-") || lastString.Equals("*") || lastString.Equals("/"))
+            {
+                throw new FormulaFormatException("Syntax Error: Cannot end with operator");
+            }
+
         }
         /// <summary>
         /// Evaluates this Formula, using the Lookup delegate to determine the values of variables.  (The
@@ -49,6 +140,23 @@ namespace Formulas
         /// </summary>
         public double Evaluate(Lookup lookup)
         {
+            Stack<String> operatorStack = new Stack<string>();
+            Stack<String> operandStack = new Stack<string>();
+            foreach (string inputStringE in GetTokens(formulaPass))
+            {
+                if (Regex.IsMatch(inputStringE, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
+                {
+                    operandStack.Push(inputStringE);
+                }
+                else
+                {
+                    operatorStack.Push(inputStringE); 
+                }
+                if(operandStack.Count > 2)
+                {
+
+                }
+            }
             return 0;
         }
 

@@ -21,7 +21,7 @@ namespace FormulaTestCases
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(FormulaFormatException))]
-        public void Construct1()
+        public void constructorWithUnderScore()
         {
             Formula f = new Formula("_");
         }
@@ -31,7 +31,7 @@ namespace FormulaTestCases
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(FormulaFormatException))]
-        public void Construct2()
+        public void ConstructorWithDoubleOperator()
         {
             Formula f = new Formula("2++3");
         }
@@ -41,11 +41,124 @@ namespace FormulaTestCases
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(FormulaFormatException))]
-        public void Construct3()
+        public void ConstructorWithDoubleOperands()
         {
             Formula f = new Formula("2 3");
         }
 
+        [TestMethod]
+        public void ConstructorTestWithValidSimpleEquation()
+        {
+            Formula f = new Formula("2+3");
+        }
+
+        [TestMethod]
+        public void ConstructorTestWithParenthesis()
+        {
+            Formula f = new Formula("(2+3)");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructTestWithSeveralInvalidTokens()
+        {
+            Formula f = new Formula("_$_");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithNoTokens()
+        {
+            Formula f = new Formula("");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithBackWardsParenthesis()
+        {
+            Formula f = new Formula(")2+3(");
+        }
+
+        [TestMethod]
+        public void ConstructorTestWithMultipleParenthesis()
+        {
+            Formula f = new Formula("6+4/(2-3)");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithMultipleIncompleteParenthesis()
+        {
+            Formula f = new Formula("(2+3");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithMultipleIncompleteParenthFlipped()
+        {
+            Formula f = new Formula("2+3)");
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithStartingOperator()
+        {
+            Formula f = new Formula("-3");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithEndingOperator()
+        {
+            Formula f = new Formula("2+3-");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithOutOfPlaceOperands()
+        {
+            Formula f = new Formula("36+4 6");
+        }
+
+        [TestMethod]
+        public void ConstructorTestMakingSureLongOperandsWork()
+        {
+            Formula f = new Formula("(253/5345)+(242352)-(34534)");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithOperandParenthOperandFunc()
+        {
+            Formula f = new Formula("23(34)");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithOperandParenthFuncReversedShouldFail()
+        {
+            Formula f = new Formula("(234)(435)(435)");
+        }
+
+        [TestMethod]
+        public void ConstructorTestWithOperandParenthShouldPass()
+        {
+            Formula f = new Formula("(234) + (435) - (435)");
+        }
+
+        [TestMethod]
+        public void ConstructorTestWithVariables()
+        {
+            Formula f = new Formula("g+3+s+y");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorTestWithBadTokenMultiple()
+        {
+            Formula f = new Formula("6+3-(4/2)+$");
+        }
         /// <summary>
         /// Makes sure that "2+3" evaluates to 5.  Since the Formula
         /// contains no variables, the delegate passed in as the
