@@ -1,4 +1,5 @@
 ﻿// Written by Joe Zachary for CS 3500, January 2017.
+// Tests added by Lingxi Zhong U0770136 1/26/17
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
