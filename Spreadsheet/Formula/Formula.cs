@@ -161,23 +161,26 @@ namespace Formulas
                             }
                             if (opFunc.Equals("-"))
                             {
-                                operandStack.Push(opValue1 - opValue2);
+                                operandStack.Push(opValue2 - opValue1);
                             }
                         }
                     }
                     operatorStack.Push(inputStringE);
+                    continue;
                 }
 
                 if (inputStringE.Equals("*") || inputStringE.Equals("/"))
                 {
                     // Execution if t is multiply "*" or divide "/"
                     operatorStack.Push(inputStringE);
+                    continue;
                 }
 
                 if (inputStringE.Equals("("))
                 {
                     // Execution if t is "(" open parenthesis
                     operatorStack.Push(inputStringE);
+                    continue;
                 }
 
                 if (inputStringE.Equals(")"))
@@ -194,28 +197,33 @@ namespace Formulas
                         }
                         if (opFunc.Equals("-"))
                         {
-                            operandStack.Push(opValue1 - opValue2);
+                            operandStack.Push(opValue2 - opValue1);
                         }
                     }
                     if (operatorStack.Peek().Equals("("))
                     {
                         operatorStack.Pop();
                     }
-                    if (operatorStack.Peek().Equals("*") || operatorStack.Peek().Equals("/"))
+                    if (operatorStack.Count != 0)
                     {
-                        double opValue1 = operandStack.Pop();
-                        double opValue2 = operandStack.Pop();
-                        string opFunc = operatorStack.Pop();
-                        if (opFunc.Equals("*"))
+                        if (operatorStack.Peek().Equals("*") || operatorStack.Peek().Equals("/"))
                         {
-                            operandStack.Push(opValue1 * opValue2);
-                        }
-                        if (opFunc.Equals("/"))
-                        {
-                            operandStack.Push(opValue1 / opValue2);
+                            double opValue1 = operandStack.Pop();
+                            double opValue2 = operandStack.Pop();
+                            string opFunc = operatorStack.Pop();
+                            if (opFunc.Equals("*"))
+                            {
+                                operandStack.Push(opValue1 * opValue2);
+                                continue;
+                            }
+                            if (opFunc.Equals("/"))
+                            {
+                                operandStack.Push(opValue2 / opValue1);
+                                continue;
+                            }
                         }
                     }
-
+                    continue;
                 }
                 // If t is a number or variable:
                 double inputValue = 0;
@@ -241,6 +249,7 @@ namespace Formulas
                         if (operatorS.Equals("*"))
                         {
                             operandStack.Push(inputValue * tempValue);
+                            continue;
                         }
                         else
                         {
@@ -248,7 +257,8 @@ namespace Formulas
                             {
                                 throw new FormulaEvaluationException("Cannot divide by zero");
                             }
-                            operandStack.Push(inputValue / tempValue);
+                            operandStack.Push(tempValue / inputValue);
+                            continue;
                         }
                     }
                 }
@@ -267,7 +277,7 @@ namespace Formulas
                 }
                 if (opFunc.Equals("-"))
                 {
-                    operandStack.Push(opValue1 - opValue2);
+                    operandStack.Push(opValue2 - opValue1);
                 }
             }
             if (operatorStack.Count == 0)
