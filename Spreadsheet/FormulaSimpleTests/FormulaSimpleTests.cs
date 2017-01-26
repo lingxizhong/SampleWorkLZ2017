@@ -172,6 +172,19 @@ namespace FormulaTestCases
             Formula f = new Formula("2.3 + 4");
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorWithParenthNegStart()
+        {
+            Formula f = new Formula("(-)2");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaFormatException))]
+        public void ConstructorWithParenthNegEnd()
+        {
+            Formula f = new Formula("2(-)");
+        }
         /// <summary>
         /// Makes sure that "2+3" evaluates to 5.  Since the Formula
         /// contains no variables, the delegate passed in as the

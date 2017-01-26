@@ -74,6 +74,14 @@ namespace Formulas
                     {
                         throw new FormulaFormatException("Syntax Error: Cannot start formula with operator");
                     }
+                    if (length == 1)
+                    {
+                        string prevString = stringStack.Pop();
+                        if (prevString.Equals("("))
+                        {
+                            throw new FormulaFormatException("Syntax Error: Cannot start formula with operator");
+                        }
+                    }
                     if(length > 1)
                     {
                         string previousString = stringStack.Peek();
