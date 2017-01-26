@@ -45,7 +45,7 @@ namespace Formulas
             int closeParenth = 0; 
             foreach (string inputString in GetTokens(formula))
             {
-                Console.Write(inputString); // For Testing only, remember to take out
+                // Console.Write(inputString); // For Testing only
                 if(inputString.Equals("(") || inputString.Equals(")"))
                 {
                     if(inputString.Equals("("))
@@ -253,7 +253,7 @@ namespace Formulas
                         }
                         else
                         {
-                            if (tempValue == 0)
+                            if (inputValue == 0)
                             {
                                 throw new FormulaEvaluationException("Cannot divide by zero");
                             }

@@ -179,7 +179,7 @@ namespace FormulaTestCases
         /// maps all variables to zero.
         /// </summary>
         [TestMethod]
-        public void Evaluate1()
+        public void SimpleAddEvaluate()
         {
             Formula f = new Formula("2+3");
             Assert.AreEqual(5.0, f.Evaluate(v => 0), 1e-6);
@@ -192,7 +192,7 @@ namespace FormulaTestCases
         /// variables to 22.5, the return value should be 22.5.
         /// </summary>
         [TestMethod]
-        public void Evaluate2()
+        public void SimpleDelegateFunctionEvaluation()
         {
             Formula f = new Formula("x5");
             Assert.AreEqual(f.Evaluate(v => 22.5), 22.5, 1e-6);
@@ -206,7 +206,7 @@ namespace FormulaTestCases
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(FormulaEvaluationException))]
-        public void Evaluate3()
+        public void VariableDoesntExistEvaluate()
         {
             Formula f = new Formula("x + y");
             f.Evaluate(v => { throw new UndefinedVariableException(v); });
@@ -217,7 +217,7 @@ namespace FormulaTestCases
         /// that evaluating the formula returns in 10.
         /// </summary>
         [TestMethod]
-        public void Evaluate4()
+        public void VariableDelegateSimpleFunction()
         {
             Formula f = new Formula("x + y");
             Assert.AreEqual(f.Evaluate(Lookup4), 10.0, 1e-6);
@@ -227,10 +227,61 @@ namespace FormulaTestCases
         /// This uses one of each kind of token.
         /// </summary>
         [TestMethod]
-        public void Evaluate5 ()
+        public void ComplexDelegateVariableEval()
         {
             Formula f = new Formula("(x + y) * (z / x) * 1.0");
             Assert.AreEqual(f.Evaluate(Lookup4), 20.0, 1e-6);
+        }
+
+        [TestMethod]
+        public void ComplexFunctionWithNoParenth()
+        {
+            Formula f = new Formula("2+6*3-2+4/2");
+            Assert.AreEqual(f.Evaluate(v => 0), 20, 1e-6);
+        }
+
+        [TestMethod]
+        public void SimpleSubtractionEval()
+        {
+            Formula f = new Formula("6-3");
+            Assert.AreEqual(f.Evaluate(v => 0), 3, 1e-6);
+        }
+
+        [TestMethod]
+        public void SimpleSubtractionWithParenthEval()
+        {
+            Formula f = new Formula("(6-3)");
+            Assert.AreEqual(f.Evaluate(v => 0), 3, 1e-6);
+        }
+
+        [TestMethod]
+        public void SimpleDivideWithParenthEval()
+        {
+            Formula f = new Formula("(6/3)");
+            Assert.AreEqual(f.Evaluate(v => 0), 2, 1e-6);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormulaEvaluationException))]
+        public void DivideByZeroEval()
+        {
+            Formula f = new Formula("6/0");
+            Assert.AreEqual(f.Evaluate(v => 0), 0, 1e-6);
+        }
+
+        [TestMethod]
+        public void MultipleDivideEval()
+        {
+            Formula f = new Formula("10/5/2");
+            Assert.AreEqual(f.Evaluate(v => 0), 1, 1e-6);
+
+        }
+
+        [TestMethod]
+        public void ComplexMultiDivEval()
+        {
+            Formula f = new Formula("((20/4)/(25/5))");
+            Assert.AreEqual(f.Evaluate(v => 0), 1, 1e-6);
         }
 
         /// <summary>
