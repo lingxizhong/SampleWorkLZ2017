@@ -48,11 +48,17 @@ namespace Dependencies
     /// </summary>
     public class DependencyGraph
     {
+        private Dictionary<String, HashSet<String>> dependents;
+        private Dictionary<String, HashSet<String>> dependees;
+        private int size;
         /// <summary>
         /// Creates a DependencyGraph containing no dependencies.
         /// </summary>
         public DependencyGraph()
         {
+            dependents = new Dictionary<string, HashSet<string>>();
+            dependees = new Dictionary<string, HashSet<string>>();
+            size = 0;
         }
 
         /// <summary>
@@ -60,7 +66,7 @@ namespace Dependencies
         /// </summary>
         public int Size
         {
-            get { return 0; }
+            get { return size; }
         }
 
         /// <summary>
@@ -68,7 +74,7 @@ namespace Dependencies
         /// </summary>
         public bool HasDependents(string s)
         {
-            return false;
+            return dependents.ContainsKey(s);
         }
 
         /// <summary>
@@ -76,7 +82,7 @@ namespace Dependencies
         /// </summary>
         public bool HasDependees(string s)
         {
-            return false;
+            return dependees.ContainsKey(s);
         }
 
         /// <summary>
@@ -84,7 +90,14 @@ namespace Dependencies
         /// </summary>
         public IEnumerable<string> GetDependents(string s)
         {
-            return null;
+            if(s == null || HasDependents(s) == false)
+            {
+                HashSet<string> empty = new HashSet<string>();
+                return empty;
+            }
+            HashSet<string> result = new HashSet<string>();
+            dependents.TryGetValue(s, out result);
+            return result;
         }
 
         /// <summary>
@@ -92,7 +105,14 @@ namespace Dependencies
         /// </summary>
         public IEnumerable<string> GetDependees(string s)
         {
-            return null;
+            if (s == null || HasDependees(s) == false)
+            {
+                HashSet<string> empty = new HashSet<string>();
+                return empty;
+            }
+            HashSet<string> result = new HashSet<string>();
+            dependees.TryGetValue(s, out result);
+            return result;
         }
 
         /// <summary>
@@ -102,6 +122,36 @@ namespace Dependencies
         /// </summary>
         public void AddDependency(string s, string t)
         {
+            if(s == null || t == null)
+            {
+                throw new NullReferenceException("Input cannot be null");
+            }
+            if(dependents.ContainsKey(s))
+            {
+                HashSet<string> tempDependentHashSet;
+                dependents.TryGetValue(s, out tempDependentHashSet);
+                tempDependentHashSet.Add(t);
+            }
+            else
+            {
+                HashSet<string> newDependentHashSet = new HashSet<string>();
+                newDependentHashSet.Add(t);
+                dependents.Add(s, newDependentHashSet);
+            }
+
+            if(dependees.ContainsKey(t))
+            {
+                HashSet<string> tempDependeeHashSet;
+                dependees.TryGetValue(t, out tempDependeeHashSet);
+                tempDependeeHashSet.Add(s);
+            }
+            else
+            {
+                HashSet<string> newDependeeHashSet = new HashSet<string>();
+                newDependeeHashSet.Add(s);
+                dependees.Add(t, newDependeeHashSet);
+            }
+            size++;
         }
 
         /// <summary>
@@ -111,6 +161,23 @@ namespace Dependencies
         /// </summary>
         public void RemoveDependency(string s, string t)
         {
+            if (s == null || t == null)
+            {
+                throw new NullReferenceException("Input cannot be null");
+            }
+            if (dependents.ContainsKey(s))
+            {
+                HashSet<string> tempDependentHashSet;
+                dependents.TryGetValue(s, out tempDependentHashSet);
+                tempDependentHashSet.Remove(t);
+            }
+            if (dependees.ContainsKey(t))
+            {
+                HashSet<string> tempDependeeHashSet;
+                dependees.TryGetValue(t, out tempDependeeHashSet);
+                tempDependeeHashSet.Remove(s);
+            }
+            size--;
         }
 
         /// <summary>
@@ -120,6 +187,25 @@ namespace Dependencies
         /// </summary>
         public void ReplaceDependents(string s, IEnumerable<string> newDependents)
         {
+            HashSet<string> valuesToBeRemoved;
+            Boolean flag = dependents.TryGetValue(s, out valuesToBeRemoved);
+            if (flag == false)
+            {
+                return;
+            }          
+            foreach(string removeThis in valuesToBeRemoved)
+            {
+                HashSet<string> temp;
+                dependees.TryGetValue(removeThis, out temp);
+                temp.Remove(s);
+                size--;
+            }
+            dependents.Remove(s);
+            foreach(string t in newDependents)
+            {
+                AddDependency(s, t);
+                size++;
+            }
         }
 
         /// <summary>
@@ -129,6 +215,23 @@ namespace Dependencies
         /// </summary>
         public void ReplaceDependees(string t, IEnumerable<string> newDependees)
         {
+            HashSet<string> valuesToBeRemoved;
+            Boolean flag = dependees.TryGetValue(t, out valuesToBeRemoved);
+            if (flag == false)
+            {
+                return;
+            }
+            foreach (string removeThis in valuesToBeRemoved)
+            {
+                HashSet<string> temp;
+                dependents.TryGetValue(removeThis, out temp);
+                temp.Remove(t);
+            }
+            dependees.Remove(t);
+            foreach (string s in newDependees)
+            {
+                AddDependency(s, t);
+            }
         }
     }
 }
