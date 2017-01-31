@@ -74,6 +74,10 @@ namespace Dependencies
         /// </summary>
         public bool HasDependents(string s)
         {
+            if(s == null)
+            {
+                return false;
+            }
             return dependents.ContainsKey(s);
         }
 
@@ -82,6 +86,10 @@ namespace Dependencies
         /// </summary>
         public bool HasDependees(string s)
         {
+            if(s == null)
+            {
+                return false;
+            }
             return dependees.ContainsKey(s);
         }
 
@@ -124,18 +132,19 @@ namespace Dependencies
         {
             if(s == null || t == null)
             {
-                throw new NullReferenceException("Input cannot be null");
+                return;
             }
+            Boolean flag = false;
             if(dependents.ContainsKey(s))
             {
                 HashSet<string> tempDependentHashSet;
                 dependents.TryGetValue(s, out tempDependentHashSet);
-                tempDependentHashSet.Add(t);
+                flag = tempDependentHashSet.Add(t);
             }
             else
             {
                 HashSet<string> newDependentHashSet = new HashSet<string>();
-                newDependentHashSet.Add(t);
+                flag = newDependentHashSet.Add(t);
                 dependents.Add(s, newDependentHashSet);
             }
 
@@ -151,7 +160,10 @@ namespace Dependencies
                 newDependeeHashSet.Add(s);
                 dependees.Add(t, newDependeeHashSet);
             }
-            size++;
+            if(flag == true)
+            {
+                size++;
+            }
         }
 
         /// <summary>
@@ -163,20 +175,18 @@ namespace Dependencies
         {
             if (s == null || t == null)
             {
-                throw new NullReferenceException("Input cannot be null");
+                return;
             }
-            if (dependents.ContainsKey(s))
+            if (!dependents.ContainsKey(s) || !dependees.ContainsKey(t))
             {
-                HashSet<string> tempDependentHashSet;
-                dependents.TryGetValue(s, out tempDependentHashSet);
-                tempDependentHashSet.Remove(t);
+                return;
             }
-            if (dependees.ContainsKey(t))
-            {
-                HashSet<string> tempDependeeHashSet;
-                dependees.TryGetValue(t, out tempDependeeHashSet);
-                tempDependeeHashSet.Remove(s);
-            }
+            HashSet<string> tempDependentHashSet;
+            dependents.TryGetValue(s, out tempDependentHashSet);
+            tempDependentHashSet.Remove(t);
+            HashSet<string> tempDependeeHashSet;
+            dependees.TryGetValue(t, out tempDependeeHashSet);
+            tempDependeeHashSet.Remove(s);
             size--;
         }
 
@@ -191,7 +201,7 @@ namespace Dependencies
             Boolean flag = dependents.TryGetValue(s, out valuesToBeRemoved);
             if (flag == false)
             {
-                return;
+                valuesToBeRemoved = new HashSet<string>();
             }          
             foreach(string removeThis in valuesToBeRemoved)
             {
@@ -204,7 +214,6 @@ namespace Dependencies
             foreach(string t in newDependents)
             {
                 AddDependency(s, t);
-                size++;
             }
         }
 
@@ -219,7 +228,7 @@ namespace Dependencies
             Boolean flag = dependees.TryGetValue(t, out valuesToBeRemoved);
             if (flag == false)
             {
-                return;
+                valuesToBeRemoved = new HashSet<string>();
             }
             foreach (string removeThis in valuesToBeRemoved)
             {
