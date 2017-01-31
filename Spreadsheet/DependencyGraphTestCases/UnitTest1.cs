@@ -2,9 +2,15 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Dependencies;
-
+/// <summary>
+/// Tests Written by Lingxi Zhong last edit 1/31/17
+/// U0770136
+/// </summary>
 namespace DependencyGraphTestCases
 {
+    /// <summary>
+    /// Tests for the class "Dependency Graph"
+    /// </summary>
     [TestClass]
     public class UnitTests
     {
@@ -163,6 +169,19 @@ namespace DependencyGraphTestCases
             Assert.AreEqual("", result);
         }
 
+        [TestMethod]
+        public void GetDependentsWithEmptyDependent()
+        {
+            DependencyGraph test = new DependencyGraph();
+            var result = test.GetDependents("s");
+            string result2 = "";
+            foreach(string q in result)
+            {
+                result2 = result2 + q;
+            }
+            Assert.AreEqual("", result2);
+
+        }
         [TestMethod]
         public void RemoveDependencyBasicFuncTest()
         {
