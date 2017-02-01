@@ -42,7 +42,16 @@ namespace Dependencies
             {
                 return false;
             }
-            return dependents.ContainsKey(s);
+            HashSet<string> emptyCheck = new HashSet<string>();
+            Boolean result = dependents.TryGetValue(s, out emptyCheck);
+            if (result == true)
+            {
+                if(emptyCheck.Count == 0)
+                {
+                    result = false;
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -50,11 +59,20 @@ namespace Dependencies
         /// </summary>
         public bool HasDependees(string s)
         {
-            if(s == null)
+            if (s == null)
             {
                 return false;
             }
-            return dependees.ContainsKey(s);
+            HashSet<string> emptyCheck = new HashSet<string>();
+            Boolean result = dependees.TryGetValue(s, out emptyCheck);
+            if (result == true)
+            {
+                if (emptyCheck.Count == 0)
+                {
+                    result = false;
+                }
+            }
+            return result;
         }
 
         /// <summary>
