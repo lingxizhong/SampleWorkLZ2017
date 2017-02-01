@@ -199,6 +199,7 @@ namespace Dependencies
                 HashSet<string> temp;
                 dependents.TryGetValue(removeThis, out temp);
                 temp.Remove(t);
+                size--;
             }
             dependees.Remove(t);
             foreach (string s in newDependees)

@@ -260,7 +260,7 @@ namespace DependencyGraphTestCases
             temp.Add("c");
             test.ReplaceDependees("d", temp);
             int result = test.Size;
-            Assert.AreEqual(6, result);
+            Assert.AreEqual(4, result);
             var result2 = test.GetDependees("d");
             string result3 = "";
             foreach (string q in result2)
