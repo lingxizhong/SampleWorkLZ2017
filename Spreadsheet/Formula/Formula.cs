@@ -16,6 +16,9 @@ namespace Formulas
     /// </summary>
     public class Formula
     {
+        /// <summary>
+        /// Variable to store constructor input to give to Evalute Method later.
+        /// </summary>
         private string formulaPass;
         /// <summary>
         /// Creates a Formula from a string that consists of a standard infix expression composed
