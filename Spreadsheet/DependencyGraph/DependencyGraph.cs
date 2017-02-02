@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-
+/// <summary>
+/// Namespace for Dependency Graph
+/// </summary>
 namespace Dependencies
 {
     /// <summary>
@@ -12,8 +14,17 @@ namespace Dependencies
     /// </summary>
     public class DependencyGraph
     {
+        /// <summary>
+        /// Dictionary to hold dependents
+        /// </summary>
         private Dictionary<String, HashSet<String>> dependents;
+        /// <summary>
+        /// Dictionary to hold dependees
+        /// </summary>
         private Dictionary<String, HashSet<String>> dependees;
+        /// <summary>
+        /// Holds Size of Dependency Graph
+        /// </summary>
         private int size;
         /// <summary>
         /// Creates a DependencyGraph containing no dependencies.
