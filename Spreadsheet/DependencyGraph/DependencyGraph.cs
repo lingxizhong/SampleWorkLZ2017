@@ -159,7 +159,7 @@ namespace Dependencies
             {
                 return;
             }
-            if (!dependents.ContainsKey(s) || !dependees.ContainsKey(t))
+            if (!this.HasDependents(s) || !this.HasDependees(t))
             {
                 return;
             }
