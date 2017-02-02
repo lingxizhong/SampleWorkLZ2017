@@ -179,6 +179,10 @@ namespace Dependencies
         /// </summary>
         public void ReplaceDependents(string s, IEnumerable<string> newDependents)
         {
+            if(s == null || newDependents == null)
+            {
+                return;
+            }
             HashSet<string> valuesToBeRemoved;
             Boolean flag = dependents.TryGetValue(s, out valuesToBeRemoved);
             if (flag == false)
@@ -206,6 +210,10 @@ namespace Dependencies
         /// </summary>
         public void ReplaceDependees(string t, IEnumerable<string> newDependees)
         {
+            if(t == null || newDependees == null)
+            {
+                return;
+            }
             HashSet<string> valuesToBeRemoved;
             Boolean flag = dependees.TryGetValue(t, out valuesToBeRemoved);
             if (flag == false)

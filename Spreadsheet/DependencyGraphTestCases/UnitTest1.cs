@@ -350,5 +350,188 @@ namespace DependencyGraphTestCases
             }
             stress.ReplaceDependees("q", randomStrings);
         }
+
+
+        // This is not a unit test for a reason, I found that a mixture of successive method calls can produce some bugs
+        [TestMethod]
+        public void AlmightySuperMegaSuccesiveCallMultiMethodTest()
+        {
+            // setup
+            DependencyGraph data = new DependencyGraph();
+            data.AddDependency("a", "b");
+            data.AddDependency("a", "c");
+            data.AddDependency("b", "d");
+            data.AddDependency("d", "d");
+            data.AddDependency("a", "g");
+            data.AddDependency("s", "t");
+            //part1 (p1 vars) (remove element s, t)
+            data.RemoveDependency("s", "t");
+            int p1Size = data.Size; // should be 5
+            Boolean p1Bool = data.HasDependents("s"); // should be false
+            var p1Var = data.GetDependees("t"); // should be empty
+            string p1StrResult = "";
+            foreach(string p1str in p1Var)
+            {
+                p1StrResult = p1StrResult + p1str;
+            }
+            Assert.AreEqual(5, p1Size);
+            Assert.AreEqual(false, p1Bool);
+            Assert.AreEqual("", p1StrResult);
+            //part2 (p2 vars) replace s with list that has t2
+            HashSet<string> p2HashInput = new HashSet<string>();
+            p2HashInput.Add("t2");
+            data.ReplaceDependents("s", p2HashInput);
+            int p2Size = data.Size; //Should be 6 
+            Boolean p2EETResult = data.HasDependees("t"); // Should be false
+            Boolean p2ENTResult = data.HasDependents("s"); // Should be true
+            var p2Var = data.GetDependees("t2"); //should contain "s"
+            string p2StrResult = "";
+            foreach(string p2Str in p2Var)
+            {
+                p2StrResult = p2StrResult + p2Str;
+            }
+            Assert.AreEqual(6, p2Size);
+            Assert.AreEqual(false, p2EETResult);
+            Assert.AreEqual(true, p2ENTResult);
+            Assert.AreEqual("s", p2StrResult);
+            //part3 (p3 vars) delete with replace. Setup for remove call in p4
+            HashSet<string> empty = new HashSet<string>();
+            data.ReplaceDependents("s", empty);
+            int p3Size = data.Size; //should be 5
+            Boolean p3ENTBool = data.HasDependents("s"); // should be false
+            Boolean p3EETBool = data.HasDependees("t2"); // should be false
+            Assert.AreEqual(5, p3Size);
+            Assert.AreEqual(false, p3ENTBool);
+            Assert.AreEqual(false, p3EETBool);
+            //part4 (p4 vars) remove nonexistent replaced element s, t2; shouldn't error out or change size
+            data.RemoveDependency("s", "t2");
+            int p4Size = data.Size; // should still be 5
+            Assert.AreEqual(5, p4Size);
+            //part5 (p5 vars) replace dependees Big Call
+            HashSet<string> p5Hash = new HashSet<string>();
+            p5Hash.Add("a");
+            p5Hash.Add("b");
+            p5Hash.Add("c");
+            data.ReplaceDependees("d", p5Hash);
+            int p5Size = data.Size; // should be 6
+            Boolean p5Bool = data.HasDependents("d"); //should be false
+            Assert.AreEqual(6, p5Size);
+            Assert.AreEqual(false, p5Bool);
+            var p5Var1 = data.GetDependents("b");
+            string p5result1 = "";
+            foreach(string p5str1 in p5Var1)
+            {
+                p5result1 = p5result1 + p5str1;
+            }
+            Assert.AreEqual("d", p5result1);
+            var p5Var2 = data.GetDependents("a");
+            string p5result2 = "";
+            foreach(string p5str2 in p5Var2)
+            {
+                p5result2 = p5result2 + p5str2;
+            }
+            Assert.AreEqual("bcgd", p5result2);
+            var p5Var3 = data.GetDependees("d");
+            string p5result3 = "";
+            foreach(string p5str3 in p5Var3)
+            {
+                p5result3 = p5result3 + p5str3;
+            }
+            Assert.AreEqual("abc", p5result3);
+            //part 6 replaceDependants Big Call
+            HashSet<string> p6Hash = new HashSet<string>();
+            p6Hash.Add("d");
+            p6Hash.Add("g");
+            p6Hash.Add("c");
+            p6Hash.Add("b");
+            p6Hash.Add("t");
+            p6Hash.Add("t2");
+            data.ReplaceDependents("d", p6Hash);
+            int p6Size = data.Size; // Should be 12
+            Assert.AreEqual(12, p6Size);
+            var p6Var1 = data.GetDependents("d");
+            string p6Result1 = "";
+            foreach(string p6str1 in p6Var1)
+            {
+                p6Result1 = p6Result1 + p6str1;
+            }
+            Assert.AreEqual("dgcbtt2", p6Result1);
+            var p6Var2 = data.GetDependees("d");
+            string p6Result2 = "";
+            foreach(string p6str2 in p6Var2)
+            {
+                p6Result2 = p6Result2 + p6str2;
+            }
+            Assert.AreEqual("abcd", p6Result2);
+            var p6Var3 = data.GetDependees("g");
+            string p6Result3 = "";
+            foreach(string p6str3 in p6Var3)
+            {
+                p6Result3 = p6Result3 + p6str3;
+            }
+            Assert.AreEqual("ad", p6Result3);
+            var p6Var4 = data.GetDependees("t2");
+            string p6Result4 = "";
+            foreach (string p6str4 in p6Var4)
+            {
+                p6Result4 = p6Result4 + p6str4;
+            }
+            Assert.AreEqual("d", p6Result4);
+            //part 7
+            data.ReplaceDependees("t", empty);
+            int p7Size = data.Size;
+            Assert.AreEqual(11, p7Size);
+            Boolean p7Bool = data.HasDependees("t");
+            Assert.AreEqual(false, p7Bool);
+            //part 8
+            HashSet<string> p8Hash = new HashSet<string>();
+            p8Hash.Add("t");
+            p8Hash.Add("t2");
+            data.ReplaceDependents("a", p8Hash);
+            int p8Size = data.Size;
+            Assert.AreEqual(9, p8Size);
+            var p8Var1 = data.GetDependees("d");
+            string p8StrResult1 = "";
+            foreach(string p8Str1 in p8Var1)
+            {
+                p8StrResult1 = p8StrResult1 + p8Str1;
+            }
+            Assert.AreEqual("bcd", p8StrResult1);
+            var p8Var2 = data.GetDependees("g");
+            string p8StrResult2 = "";
+            foreach(string p8Str2 in p8Var2)
+            {
+                p8StrResult2 = p8StrResult2 + p8Str2;
+            }
+            Assert.AreEqual("d", p8StrResult2);
+            var p8Var3 = data.GetDependees("t2");
+            string p8StrResult3 = "";
+            foreach(string p8Str3 in p8Var3)
+            {
+                p8StrResult3 = p8StrResult3 + p8Str3;
+            }
+            Assert.AreEqual("da", p8StrResult3);
+            var p8Var4 = data.GetDependees("t");
+            string p8StrResult4 = "";
+            foreach (string p8Str4 in p8Var4)
+            {
+                p8StrResult4 = p8StrResult4 + p8Str4;
+            }
+            Assert.AreEqual("a", p8StrResult4);
+        }
+
+        [TestMethod]
+        public void NullTests() //Will it compile?
+        {
+            DependencyGraph test = new DependencyGraph();
+            test.AddDependency(null, null);
+            test.RemoveDependency(null, null);
+            test.GetDependees(null);
+            test.GetDependents(null);
+            test.HasDependees(null);
+            test.HasDependents(null);
+            test.ReplaceDependees(null, null);
+            test.ReplaceDependents(null, null);
+        }
     }
 }
