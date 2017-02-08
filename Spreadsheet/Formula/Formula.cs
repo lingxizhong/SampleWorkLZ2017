@@ -14,67 +14,66 @@ namespace Formulas
     /// the four binary operator symbols +, -, *, and /.  (The unary operators + and -
     /// are not allowed.)
     /// </summary>
-    public class Formula
+    public struct Formula
     {
         /// <summary>
         /// Variable to store constructor input to give to Evalute Method later.
         /// </summary>
         private string formulaPass;
         /// <summary>
+        /// stores variables while constructing formula so they can be returned later in GetVariables()
+        /// </summary>
+        private HashSet<string> variables;
+        /// <summary>
         /// Creates a Formula from a string that consists of a standard infix expression composed
         /// from non-negative floating-point numbers (using C#-like syntax for double/int literals), 
         /// variable symbols (a letter followed by zero or more letters and/or digits), left and right
         /// parentheses, and the four binary operator symbols +, -, *, and /.  White space is
         /// permitted between tokens, but is not required.
-        /// 
-        /// Examples of a valid parameter to this constructor are:
-        ///     "2.5e9 + x5 / 17"
-        ///     "(5 * 2) + 8"
-        ///     "x*y-2+35/9"
-        ///     
-        /// Examples of invalid parameters are:
-        ///     "_"
-        ///     "-5.3"
-        ///     "2 5 + 3"
-        /// 
         /// If the formula is syntacticaly invalid, throws a FormulaFormatException with an 
         /// explanatory Message.
         /// </summary>
-        public Formula(String formula)
+        public Formula(String formula) : this(formula, n=>n, v=>true)
         {
-            formulaPass = formula;
+        }
+
+        public Formula(String formula, Normalizer normalize, Validator validator)
+        {
+            formulaPass = normalize(formula);
+            formula = normalize(formula);
+            variables = new HashSet<string>();
             int length = 0;
             Stack<String> stringStack = new Stack<string>();
             int openParenth = 0;
-            int closeParenth = 0; 
+            int closeParenth = 0;
             foreach (string inputString in GetTokens(formula))
             {
                 // Console.Write(inputString); // For Testing only
-                if(inputString.Equals("(") || inputString.Equals(")"))
+                if (inputString.Equals("(") || inputString.Equals(")"))
                 {
-                    if(inputString.Equals("("))
+                    if (inputString.Equals("("))
                     {
                         openParenth++;
-                        if(length == 0)
+                        if (length == 0)
                         {
                             stringStack.Push(inputString);
                         }
                         length++;
-                        
+
                     }
-                    if(inputString.Equals(")"))
+                    if (inputString.Equals(")"))
                     {
                         closeParenth++;
                     }
-                    if(closeParenth > openParenth)
+                    if (closeParenth > openParenth)
                     {
                         throw new FormulaFormatException("Syntax Error: Parenthesis in wrong order");
                     }
                     continue;
                 }
-                if(inputString.Equals("+") || inputString.Equals("-") || inputString.Equals("*") || inputString.Equals("/"))
+                if (inputString.Equals("+") || inputString.Equals("-") || inputString.Equals("*") || inputString.Equals("/"))
                 {
-                    if(length == 0)
+                    if (length == 0)
                     {
                         throw new FormulaFormatException("Syntax Error: Cannot start formula with operator");
                     }
@@ -86,10 +85,10 @@ namespace Formulas
                             throw new FormulaFormatException("Syntax Error: Cannot start formula with operator");
                         }
                     }
-                    if(length > 1)
+                    if (length > 1)
                     {
                         string previousString = stringStack.Peek();
-                        if(previousString.Equals("+") || previousString.Equals("-") || previousString.Equals("*") || previousString.Equals("/"))
+                        if (previousString.Equals("+") || previousString.Equals("-") || previousString.Equals("*") || previousString.Equals("/"))
                         {
                             throw new FormulaFormatException("Syntax Error: Cannot have 2 operators in sequence");
                         }
@@ -115,9 +114,17 @@ namespace Formulas
                     {
                         throw new FormulaFormatException("Syntax Error: 2 operands in sequence");
                     }
-                    
-                    if(Regex.IsMatch(inputString, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
+
+                    if (Regex.IsMatch(inputString, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
                     {
+                        if (Regex.IsMatch(inputString, @"[a-zA-Z][0-9a-zA-Z]*")) // if inputString(token) is a variable: (PS4a)
+                        {
+                            if(validator(inputString) == false)
+                            {
+                                throw new FormulaFormatException("Validation failed");
+                            }
+                            variables.Add(inputString);
+                        }
                         stringStack.Push(inputString);
                         length++;
                         continue;
@@ -126,7 +133,7 @@ namespace Formulas
 
                 }
             }
-            if(closeParenth != openParenth)
+            if (closeParenth != openParenth)
             {
                 throw new FormulaFormatException("Invalid parenthesis placement");
             }
@@ -139,8 +146,8 @@ namespace Formulas
             {
                 throw new FormulaFormatException("Syntax Error: Cannot end with operator");
             }
-
         }
+
         /// <summary>
         /// Evaluates this Formula, using the Lookup delegate to determine the values of variables.  (The
         /// delegate takes a variable name as a parameter and returns its value (if it has one) or throws
@@ -304,6 +311,16 @@ namespace Formulas
             return result;
         }
 
+        public ISet<string> GetVariables()
+        {
+            return variables;
+        }
+
+        public string toString()
+        {
+            return formulaPass;
+        }
+
         /// <summary>
         /// Given a formula, enumerates the tokens that compose it.  Tokens are left paren,
         /// right paren, one of the four operator symbols, a string consisting of a letter followed by
@@ -349,6 +366,18 @@ namespace Formulas
     /// don't is up to the implementation of the method.
     /// </summary>
     public delegate double Lookup(string var);
+    /// <summary>
+    /// A normalizer delegate, normalizes things.
+    /// </summary>
+    /// <param name="s"></param>
+    /// <returns></returns>
+    public delegate string Normalizer(string s);
+    /// <summary>
+    /// A validator delegate, validates things. 
+    /// </summary>
+    /// <param name="s"></param>
+    /// <returns></returns>
+    public delegate bool Validator(string s);
 
     /// <summary>
     /// Used to report that a Lookup delegate is unable to determine the value
