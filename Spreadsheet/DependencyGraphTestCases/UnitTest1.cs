@@ -80,7 +80,9 @@ namespace DependencyGraphTestCases
             Boolean result = test.HasDependents("A");
             Assert.AreEqual(false, result);
         }
+
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void HasDependantsWithNullElement()
         {
             DependencyGraph test = new DependencyGraph();
@@ -112,6 +114,7 @@ namespace DependencyGraphTestCases
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void HasDependeeWithNullInput()
         {
             DependencyGraph test = new DependencyGraph();
@@ -521,6 +524,7 @@ namespace DependencyGraphTestCases
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void NullTests() //Will it compile?
         {
             DependencyGraph test = new DependencyGraph();

@@ -35,7 +35,19 @@ namespace Dependencies
             dependees = new Dictionary<string, HashSet<string>>();
             size = 0;
         }
-
+        public DependencyGraph(DependencyGraph dg)
+        {
+            dependents = new Dictionary<string, HashSet<string>>();
+            dependees = new Dictionary<string, HashSet<string>>();
+            size = 0;
+            foreach (KeyValuePair<string, HashSet<string>> copyValue in dependents)
+            {
+                foreach(string s in copyValue.Value)
+                {
+                    this.AddDependency(copyValue.Key, s);
+                }
+            }
+        }
         /// <summary>
         /// The number of dependencies in the DependencyGraph.
         /// </summary>
@@ -51,7 +63,7 @@ namespace Dependencies
         {
             if(s == null)
             {
-                return false;
+                throw new ArgumentNullException();
             }
             HashSet<string> emptyCheck = new HashSet<string>();
             Boolean result = dependents.TryGetValue(s, out emptyCheck);
@@ -72,7 +84,7 @@ namespace Dependencies
         {
             if (s == null)
             {
-                return false;
+                throw new ArgumentNullException();
             }
             HashSet<string> emptyCheck = new HashSet<string>();
             Boolean result = dependees.TryGetValue(s, out emptyCheck);
@@ -91,7 +103,11 @@ namespace Dependencies
         /// </summary>
         public IEnumerable<string> GetDependents(string s)
         {
-            if(s == null || HasDependents(s) == false)
+            if(s == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if(HasDependents(s) == false)
             {
                 HashSet<string> empty = new HashSet<string>();
                 return empty;
@@ -106,7 +122,11 @@ namespace Dependencies
         /// </summary>
         public IEnumerable<string> GetDependees(string s)
         {
-            if (s == null || HasDependees(s) == false)
+            if (s == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (HasDependees(s) == false)
             {
                 HashSet<string> empty = new HashSet<string>();
                 return empty;
@@ -125,7 +145,7 @@ namespace Dependencies
         {
             if(s == null || t == null)
             {
-                return;
+                throw new ArgumentNullException();
             }
             Boolean flag = false;
             if(dependents.ContainsKey(s))
@@ -168,7 +188,7 @@ namespace Dependencies
         {
             if (s == null || t == null)
             {
-                return;
+                throw new ArgumentNullException();
             }
             if (!this.HasDependents(s) || !this.HasDependees(t))
             {
@@ -192,7 +212,7 @@ namespace Dependencies
         {
             if(s == null || newDependents == null)
             {
-                return;
+                throw new ArgumentNullException();
             }
             HashSet<string> valuesToBeRemoved;
             Boolean flag = dependents.TryGetValue(s, out valuesToBeRemoved);
@@ -223,7 +243,7 @@ namespace Dependencies
         {
             if(t == null || newDependees == null)
             {
-                return;
+                throw new ArgumentNullException();
             }
             HashSet<string> valuesToBeRemoved;
             Boolean flag = dependees.TryGetValue(t, out valuesToBeRemoved);
