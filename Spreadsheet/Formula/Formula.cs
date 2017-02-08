@@ -39,6 +39,10 @@ namespace Formulas
 
         public Formula(String formula, Normalizer normalize, Validator validator)
         {
+            if(formula == null || normalize == null || validator == null)
+            {
+                throw new ArgumentNullException();
+            }
             formulaPass = normalize(formula);
             formula = normalize(formula);
             variables = new HashSet<string>();
@@ -159,6 +163,10 @@ namespace Formulas
         /// </summary>
         public double Evaluate(Lookup lookup)
         {
+            if(lookup == null)
+            {
+                throw new ArgumentNullException();
+            }
             Stack<String> operatorStack = new Stack<string>();
             Stack<double> operandStack = new Stack<double>();
             double result = 0;
