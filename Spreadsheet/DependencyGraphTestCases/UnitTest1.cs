@@ -525,17 +525,110 @@ namespace DependencyGraphTestCases
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void NullTests() //Will it compile?
+        public void AddNull() //Will it compile?
         {
             DependencyGraph test = new DependencyGraph();
             test.AddDependency(null, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RemoveNull()
+        {
+            DependencyGraph test = new DependencyGraph();
             test.RemoveDependency(null, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetDependeesNull()
+        {
+            DependencyGraph test = new DependencyGraph();
             test.GetDependees(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetDependentsNull()
+        {
+            DependencyGraph test = new DependencyGraph();
             test.GetDependents(null);
-            test.HasDependees(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HasDependents()
+        {
+            DependencyGraph test = new DependencyGraph();
             test.HasDependents(null);
-            test.ReplaceDependees(null, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void HasDependees()
+        {
+            DependencyGraph test = new DependencyGraph();
+            test.HasDependees(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ReplaceDependents()
+        {
+            DependencyGraph test = new DependencyGraph();
             test.ReplaceDependents(null, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ReplaceDependees()
+        {
+            DependencyGraph test = new DependencyGraph();
+            test.ReplaceDependees(null, null);
+        }
+
+        [TestMethod]
+        public void CloneConstructorTestWithEmptyReferenceTest()
+        {
+            DependencyGraph test = new DependencyGraph();
+            DependencyGraph clone = new DependencyGraph(test);
+            clone.AddDependency("s", "t");
+            Boolean result1 = test.HasDependents("s");
+            Assert.AreEqual(false, result1);
+        }
+
+        [TestMethod]
+        public void CloneConstructorTestWithFullList()
+        {
+            DependencyGraph test = new DependencyGraph();
+            test.AddDependency("1", "2");
+            test.AddDependency("2", "3");
+            DependencyGraph clone = new DependencyGraph(test);
+            Boolean result1 = clone.HasDependents("1");
+            Boolean result2 = clone.HasDependees("3");
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            clone.RemoveDependency("1", "2");
+            Boolean result3 = test.HasDependents("1");
+            Assert.AreEqual(true, result3);
+        }
+
+        [TestMethod]
+        public void CloneConstructorStressTest()
+        {
+            HashSet<String> randomStrings = new HashSet<string>();
+            DependencyGraph stress = new DependencyGraph();
+            for (int i = 0; i < 100000; i++)
+            {
+                randomStrings.Add("x" + i);
+            }
+            foreach (string q in randomStrings)
+            {
+                stress.AddDependency(q, q);
+            }
+            DependencyGraph stressClone = new DependencyGraph(stress);
+            Boolean result = stressClone.HasDependents("x99999");
+            Assert.AreEqual(true, result);
         }
     }
 }
