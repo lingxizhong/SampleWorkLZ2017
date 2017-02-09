@@ -175,6 +175,10 @@ namespace Formulas
             {
                 throw new ArgumentNullException();
             }
+            if(formulaPass == null)
+            {
+                return 0;
+            }
             Stack<String> operatorStack = new Stack<string>();
             Stack<double> operandStack = new Stack<double>();
             double result = 0;
@@ -329,11 +333,20 @@ namespace Formulas
 
         public ISet<string> GetVariables()
         {
+            if (formulaPass == null)
+            {
+                HashSet<string> empty = new HashSet<string>();
+                return empty;
+            }
             return variables;
         }
 
         public override string ToString()
         {
+            if (formulaPass == null)
+            {
+                return "0";
+            }
             return formulaPass;
         }
 

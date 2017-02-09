@@ -341,6 +341,28 @@ namespace FormulaTestCases
             f.Evaluate(null);
         }
 
+        [TestMethod]
+        public void ZeroArgumentConstructor()
+        {
+            Formula f = new Formula();
+            double result = f.Evaluate(v => 0);
+            Assert.AreEqual(0, result, .001);
+        }
+
+        [TestMethod]
+        public void ZeroArgumentConstructorToStringAndVariableGet()
+        {
+            Formula f = new Formula();
+            Assert.AreEqual("0", f.ToString());
+            ISet<String> test = f.GetVariables();
+            string result = "";
+            foreach(string s in test)
+            {
+                result = result + s;
+            }
+            Assert.AreEqual("", result);
+        }
+
         /// <summary>
         /// A Lookup method that maps x to 4.0, y to 6.0, and z to 8.0.
         /// All other variables result in an UndefinedVariableException.
