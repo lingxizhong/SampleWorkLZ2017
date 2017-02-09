@@ -4,6 +4,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Formulas;
+using System.Collections.Generic;
 
 namespace FormulaTestCases
 {
@@ -302,6 +303,42 @@ namespace FormulaTestCases
         {
             Formula f = new Formula("((20/4)/(25/5))");
             Assert.AreEqual(f.Evaluate(v => 0), 1, 1e-6);
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        [TestMethod]
+        public void NewConstructorTest()
+        {
+            Formula f = new Formula("x+y+z", x => x.ToUpper(), t => true);
+
+            Assert.IsFalse(f.ToString().Contains("x"));
+            Assert.IsTrue(f.ToString().Contains("X"));
+        }
+
+        [TestMethod]
+        public void getVariablesTest()
+        {
+            Formula f = new Formula("x+y+z");
+            ISet<string> variables = (HashSet<String>)f.GetVariables();
+            Assert.AreEqual(true, variables.Contains("x"));
+            Assert.AreEqual(true, variables.Contains("y"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void nullConstructor()
+        {
+            Formula f = new Formula(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void nullEvaluate()
+        {
+            Formula f = new Formula("2+2");
+            f.Evaluate(null);
         }
 
         /// <summary>

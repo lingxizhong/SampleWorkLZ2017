@@ -109,6 +109,14 @@ namespace Formulas
                         {
                             throw new FormulaFormatException("Invalid Token Received");
                         }
+                        if (Regex.IsMatch(inputString, @"[a-zA-Z][0-9a-zA-Z]*")) // if inputString(token) is a variable: (PS4a)
+                        {
+                            if (validator(inputString) == false)
+                            {
+                                throw new FormulaFormatException("Validation failed");
+                            }
+                            variables.Add(inputString);
+                        }
                         stringStack.Push(inputString);
                         length++;
                         continue;
@@ -324,7 +332,7 @@ namespace Formulas
             return variables;
         }
 
-        public string toString()
+        public override string ToString()
         {
             return formulaPass;
         }
