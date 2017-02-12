@@ -43,8 +43,7 @@ namespace Formulas
             {
                 throw new ArgumentNullException();
             }
-            formulaPass = normalize(formula);
-            formula = normalize(formula);
+            formulaPass = "";
             variables = new HashSet<string>();
             int length = 0;
             Stack<String> stringStack = new Stack<string>();
@@ -55,6 +54,7 @@ namespace Formulas
                 // Console.Write(inputString); // For Testing only
                 if (inputString.Equals("(") || inputString.Equals(")"))
                 {
+                    formulaPass = formulaPass + inputString;
                     if (inputString.Equals("("))
                     {
                         openParenth++;
@@ -77,6 +77,7 @@ namespace Formulas
                 }
                 if (inputString.Equals("+") || inputString.Equals("-") || inputString.Equals("*") || inputString.Equals("/"))
                 {
+                    formulaPass = formulaPass + inputString;
                     if (length == 0)
                     {
                         throw new FormulaFormatException("Syntax Error: Cannot start formula with operator");
@@ -102,42 +103,40 @@ namespace Formulas
                 }
                 else
                 {
-
+                    string previousString = "";
                     if (length == 0)
                     {
                         if (!Regex.IsMatch(inputString, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
                         {
                             throw new FormulaFormatException("Invalid Token Received");
                         }
-                        if (Regex.IsMatch(inputString, @"[a-zA-Z][0-9a-zA-Z]*")) // if inputString(token) is a variable: (PS4a)
-                        {
-                            if (validator(inputString) == false)
-                            {
-                                throw new FormulaFormatException("Validation failed");
-                            }
-                            variables.Add(inputString);
-                        }
-                        stringStack.Push(inputString);
-                        length++;
-                        continue;
                     }
-                    string previousString = stringStack.Peek();
+                    else
+                    {
+                        previousString = stringStack.Peek();
+                    }
                     if (Regex.IsMatch(previousString, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
                     {
                         throw new FormulaFormatException("Syntax Error: 2 operands in sequence");
                     }
-
+                    
                     if (Regex.IsMatch(inputString, @"[0-9a-zA-Z][0-9a-zA-Z]*"))
                     {
-                        if (Regex.IsMatch(inputString, @"[a-zA-Z][0-9a-zA-Z]*")) // if inputString(token) is a variable: (PS4a)
+                        if (Regex.IsMatch(inputString, @"^[a-zA-Z][\w]*")) // if inputString(token) is a variable: (PS4a)
                         {
-                            if(validator(inputString) == false)
+                            string inputStringN = normalize(inputString);
+                            if (validator(inputStringN) == false || !Regex.IsMatch(inputStringN, @"^[a-zA-Z][\w]*"))
                             {
                                 throw new FormulaFormatException("Validation failed");
                             }
-                            variables.Add(inputString);
+                            variables.Add(inputStringN);
+                            stringStack.Push(inputStringN);
+                            formulaPass = formulaPass + inputStringN;
+                            length++;
+                            continue;
                         }
                         stringStack.Push(inputString);
+                        formulaPass = formulaPass + inputString;
                         length++;
                         continue;
                     }
