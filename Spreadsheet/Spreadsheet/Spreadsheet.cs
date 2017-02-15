@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Formulas;
+using Dependencies;
+using System.Text.RegularExpressions;
 
 namespace SS
 {
@@ -12,6 +14,8 @@ namespace SS
     /// </summary>
     public class Spreadsheet : AbstractSpreadsheet
     {
+        private Dictionary<string, Cell> data;
+        private DependencyGraph dGraph;
         /// <summary>
         /// An AbstractSpreadsheet object represents the state of a simple spreadsheet.  A 
         /// spreadsheet consists of an infinite number of named cells.
@@ -56,7 +60,8 @@ namespace SS
         /// </summary>
         public Spreadsheet()
         {
-
+            data = new Dictionary<string, Cell>();
+            dGraph = new DependencyGraph();
         }
 
         /// <summary>
@@ -67,7 +72,13 @@ namespace SS
         /// </summary>
         public override object GetCellContents(string name)
         {
-            throw new NotImplementedException();
+            if (name == null)
+            {
+                throw new InvalidNameException();
+            }
+            Cell temp = new Cell();
+            data.TryGetValue(name, out temp);
+            return temp.getContents();
         }
 
 
@@ -76,7 +87,12 @@ namespace SS
         /// </summary>
         public override IEnumerable<string> GetNamesOfAllNonemptyCells()
         {
-            throw new NotImplementedException();
+            HashSet<string> names = new HashSet<string>();
+            foreach (string s in data.Keys)
+            {
+                names.Add(s);
+            }
+            return names;            
         }
 
 
@@ -95,7 +111,20 @@ namespace SS
         /// </summary>
         public override ISet<string> SetCellContents(string name, Formula formula)
         {
-            throw new NotImplementedException();
+            if (validityCheck(name))
+            {
+                throw new InvalidNameException();
+            }
+            Cell temp = new Cell();
+            temp.setData(formula);
+            data.Add(name, temp);
+            HashSet<string> result = new HashSet<string>();
+            IEnumerable<string> tempList = dGraph.GetDependents(name);
+            foreach(string s in tempList)
+            {
+                result.Add(s);
+            }
+            return result;
         }
 
         /// <summary>
@@ -112,7 +141,20 @@ namespace SS
         /// </summary>
         public override ISet<string> SetCellContents(string name, string text)
         {
-            throw new NotImplementedException();
+            if (validityCheck(name))
+            {
+                throw new InvalidNameException();
+            }
+            Cell temp = new Cell();
+            temp.setData(text);
+            data.Add(name, temp);
+            HashSet<string> result = new HashSet<string>();
+            IEnumerable<string> tempList = dGraph.GetDependents(name);
+            foreach(string s in tempList)
+            {
+                result.Add(s);
+            }
+            return result;
         }
 
         /// <summary>
@@ -127,7 +169,20 @@ namespace SS
         /// </summary>
         public override ISet<string> SetCellContents(string name, double number)
         {
-            throw new NotImplementedException();
+            if (validityCheck(name))
+            {
+                throw new InvalidNameException();
+            }
+            Cell temp = new Cell();
+            temp.setData(number);
+            data.Add(name, temp);
+            HashSet<string> result = new HashSet<string>();
+            IEnumerable<string> tempList = dGraph.GetDependents(name);
+            foreach(string s in tempList)
+            {
+                result.Add(s);
+            }
+            return result;
         }
 
         /// <summary>
@@ -149,7 +204,63 @@ namespace SS
         /// </summary>
         protected override IEnumerable<string> GetDirectDependents(string name)
         {
-            throw new NotImplementedException();
+            return dGraph.GetDependents(name);
+        }
+
+
+        /// <summary>
+        /// In here, the name is checked to see that it is an actual cell name.
+        /// It also needs to check if the name is already in the data dictionary. If it is, we need to remove it. 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private Boolean validityCheck(String name)
+        {
+            if(!(Regex.IsMatch(name, @"^[a-zA-Z]+[1-9]+[0-9]*$")))
+            {
+                return false;
+            }
+            if(data.ContainsKey(name))
+            {
+                data.Remove(name);
+            }
+            return true;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public class Cell
+        {
+            private Object value;
+            private Object contents; 
+            public Cell()
+            {
+                value = "";
+                contents = "";
+            }
+            public void setData(Object inputValue)
+            {
+                value = inputValue;
+                if(value is Formula)
+                {
+                    Formula tempForm = (Formula)inputValue;
+                    contents = tempForm.Evaluate(s=>0); // This is a problem. What do I put into the lambda function?
+                }
+                else
+                {
+                    contents = value;
+                }
+            }
+            public object getValue()
+            {
+                return value;
+            }
+            public object getContents()
+            {
+                return contents;
+            }
         }
     }
+
+
 }
