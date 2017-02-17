@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Formulas;
 using Dependencies;
 using System.Text.RegularExpressions;
-
+/// <summary>
+/// Implementation by Lingxi Zhong U0770136
+/// </summary>
 namespace SS
 {
     /// <summary>
@@ -14,8 +16,11 @@ namespace SS
     /// </summary>
     public class Spreadsheet : AbstractSpreadsheet
     {
+        /// <summary>
+        /// This is the dictionary 
+        /// </summary>
         private Dictionary<string, Cell> data;
-        private DependencyGraph dGraph;
+        private DependencyGraph depGraph;
         /// <summary>
         /// An AbstractSpreadsheet object represents the state of a simple spreadsheet.  A 
         /// spreadsheet consists of an infinite number of named cells.
@@ -61,7 +66,7 @@ namespace SS
         public Spreadsheet()
         {
             data = new Dictionary<string, Cell>();
-            dGraph = new DependencyGraph();
+            depGraph = new DependencyGraph();
         }
 
         /// <summary>
@@ -76,8 +81,12 @@ namespace SS
             {
                 throw new InvalidNameException();
             }
-            Cell temp = new Cell();
-            data.TryGetValue(name, out temp);
+            Cell temp;
+            Boolean check = data.TryGetValue(name, out temp);
+            if(check == false)
+            {
+                temp = new Cell();
+            }
             return temp.getContents();
         }
 
@@ -111,15 +120,29 @@ namespace SS
         /// </summary>
         public override ISet<string> SetCellContents(string name, Formula formula)
         {
-            if (validityCheck(name))
+            // Checking for validity, if the dictionary already contains item, remove it. 
+            if (!validityCheck(name))
             {
                 throw new InvalidNameException();
             }
+            if (data.ContainsKey(name))
+            {
+                data.Remove(name);
+            }
+            // Gonna add some stuff to my dependency Graph
+            ISet<string> deps = formula.GetVariables();
+            HashSet<string> depsReplace = new HashSet<string>();
+            foreach (string s in deps)
+            {
+                depsReplace.Add(s);
+            }
+            depGraph.ReplaceDependents(name, depsReplace);
+            // Ok now we can add to cell and evaluate
             Cell temp = new Cell();
-            temp.setData(formula);
+            temp.setDataF(formula);
             data.Add(name, temp);
+            IEnumerable<string> tempList = GetCellsToRecalculate(name);
             HashSet<string> result = new HashSet<string>();
-            IEnumerable<string> tempList = dGraph.GetDependents(name);
             foreach(string s in tempList)
             {
                 result.Add(s);
@@ -141,16 +164,29 @@ namespace SS
         /// </summary>
         public override ISet<string> SetCellContents(string name, string text)
         {
-            if (validityCheck(name))
+            // Check for validity and if item already exists
+            if (!validityCheck(name))
             {
                 throw new InvalidNameException();
             }
+            if (data.ContainsKey(name))
+            {
+                data.Remove(name);
+            }
+            
+            // Need to remove this cell from dependency graph it was there
+            HashSet<string> empty = new HashSet<string>();
+            depGraph.ReplaceDependents(name, empty);
             Cell temp = new Cell();
             temp.setData(text);
-            data.Add(name, temp);
+            if(text != "")
+            {
+                data.Add(name, temp);
+            }
+            
+            IEnumerable<string> tempList = GetCellsToRecalculate(name);
             HashSet<string> result = new HashSet<string>();
-            IEnumerable<string> tempList = dGraph.GetDependents(name);
-            foreach(string s in tempList)
+            foreach (string s in tempList)
             {
                 result.Add(s);
             }
@@ -169,16 +205,22 @@ namespace SS
         /// </summary>
         public override ISet<string> SetCellContents(string name, double number)
         {
-            if (validityCheck(name))
+            if (!validityCheck(name))
             {
                 throw new InvalidNameException();
             }
+            if (data.ContainsKey(name))
+            {
+                data.Remove(name);
+            }
+            HashSet<string> empty = new HashSet<string>();
+            depGraph.ReplaceDependents(name, empty);
             Cell temp = new Cell();
             temp.setData(number);
             data.Add(name, temp);
+            IEnumerable<string> tempList = GetCellsToRecalculate(name);
             HashSet<string> result = new HashSet<string>();
-            IEnumerable<string> tempList = dGraph.GetDependents(name);
-            foreach(string s in tempList)
+            foreach (string s in tempList)
             {
                 result.Add(s);
             }
@@ -204,7 +246,7 @@ namespace SS
         /// </summary>
         protected override IEnumerable<string> GetDirectDependents(string name)
         {
-            return dGraph.GetDependents(name);
+            return depGraph.GetDependents(name);
         }
 
 
@@ -213,16 +255,17 @@ namespace SS
         /// It also needs to check if the name is already in the data dictionary. If it is, we need to remove it. 
         /// </summary>
         /// <param name="name"></param>
+        /// name is the name of the cell you want to check validity for. 
         /// <returns></returns>
         private Boolean validityCheck(String name)
         {
-            if(!(Regex.IsMatch(name, @"^[a-zA-Z]+[1-9]+[0-9]*$")))
+            if(name == null)
             {
                 return false;
             }
-            if(data.ContainsKey(name))
+            if(!(Regex.IsMatch(name, @"^[a-zA-Z]+[1-9]+[0-9]*$")))
             {
-                data.Remove(name);
+                return false;
             }
             return true;
         }
@@ -231,30 +274,57 @@ namespace SS
         /// </summary>
         public class Cell
         {
+            /// <summary>
+            /// The value of the cell
+            /// </summary>
             private Object value;
+            /// <summary>
+            /// The contents of a cell
+            /// </summary>
             private Object contents; 
+            /// <summary>
+            /// Nested class object for handling spreadsheet cells
+            /// </summary>
             public Cell()
             {
-                value = "";
-                contents = "";
+                string empVal = "";
+                string empCon = "";
+                value = empVal;
+                contents = empCon;
             }
+            /// <summary>
+            /// Method call for setting the contents and value of a cell, if the input is a string or double
+            /// </summary>
+            /// <param name="inputValue"></param>
             public void setData(Object inputValue)
             {
+                contents = inputValue;
                 value = inputValue;
-                if(value is Formula)
-                {
-                    Formula tempForm = (Formula)inputValue;
-                    contents = tempForm.Evaluate(s=>0); // This is a problem. What do I put into the lambda function?
-                }
-                else
-                {
-                    contents = value;
-                }
             }
-            public object getValue()
+
+            /// <summary>
+            /// Special method call for setting the contents and value of a cell, if the input is a formula
+            /// </summary>
+            /// <param name="inputValue"></param>
+            public void setDataF(Formula inputValue)
             {
-                return value;
+                contents = inputValue;
+                value = inputValue;
+                // Future proofing? May have to do something different with formula "values" in the future. 
             }
+
+            /// <summary>
+            /// Returns the value of a cell
+            /// </summary>
+            /// <returns></returns>
+            //public object getValue()
+            //{
+            //    return value;
+            //}
+            /// <summary>
+            /// Returns the contents of a cell
+            /// </summary>
+            /// <returns></returns>
             public object getContents()
             {
                 return contents;
