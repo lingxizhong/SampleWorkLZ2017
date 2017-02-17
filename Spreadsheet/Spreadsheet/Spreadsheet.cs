@@ -250,7 +250,7 @@ namespace SS
         /// </summary>
         protected override IEnumerable<string> GetDirectDependents(string name)
         {
-            return depGraph.GetDependents(name);
+            return depGraph.GetDependees(name);
         }
 
 

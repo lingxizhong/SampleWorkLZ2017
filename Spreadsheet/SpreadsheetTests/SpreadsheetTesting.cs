@@ -70,22 +70,33 @@ namespace SpreadsheetTests
             Spreadsheet test = new Spreadsheet();
             test.SetCellContents("A1", 2.0);
             Formula someFormula = new Formula("A1+3");
-            ISet<string> tempList = test.SetCellContents("A2", someFormula);
+            test.SetCellContents("A2", someFormula);
+            ISet<string> tempList = test.SetCellContents("A1", 3.0);
             HashSet<string> result1 = new HashSet<string>();
             foreach(string s in tempList)
             {
                 result1.Add(s);
             }
-            Assert.IsTrue(result1.Contains("A1"));
-            Formula someOtherFormula = new Formula("A3+3");
-            ISet<string> tempList2 = test.SetCellContents("A2", someOtherFormula);
-            HashSet<string> result2 = new HashSet<string>();
-            foreach(string t in tempList2)
+            Assert.IsTrue(result1.Contains("A2"));
+        }
+
+        [TestMethod]
+        public void FormulaSetReplaceWithVars2()
+        {
+            Spreadsheet test = new Spreadsheet();
+            Formula f1 = new Formula("A1*2"); // Add this to B1
+            Formula f2 = new Formula("B1+A1"); // Add this to C1
+            test.SetCellContents("B1", f1);
+            test.SetCellContents("C1", f2);
+            ISet<string> tempList = test.SetCellContents("A1", 3.0);
+            HashSet<string> result1 = new HashSet<string>();
+            foreach (string s in tempList)
             {
-                result2.Add(t);
+                result1.Add(s);
             }
-            Assert.IsTrue(result2.Contains("A3"));
-            Assert.IsFalse(result2.Contains("A1"));
+            Assert.IsTrue(result1.Contains("A1"));
+            Assert.IsTrue(result1.Contains("B1"));
+            Assert.IsTrue(result1.Contains("C1"));
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidNameException))]
