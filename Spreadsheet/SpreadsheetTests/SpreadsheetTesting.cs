@@ -204,5 +204,15 @@ namespace SpreadsheetTests
             test.SetCellContents("A1", null);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(CircularException))]
+        public void circularDependencyException()
+        {
+            Spreadsheet test = new Spreadsheet();
+            Formula form1 = new Formula("A2+B1");
+            test.SetCellContents("A1", form1);
+            Formula form2 = new Formula("A1+B2");
+            test.SetCellContents("A2", form2);
+        }
     }
 }
