@@ -197,11 +197,11 @@ namespace SpreadsheetTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidNameException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void nullTextStringTest()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A!", null);
+            test.SetCellContents("A1", null);
         }
 
     }
