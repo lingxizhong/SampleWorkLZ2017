@@ -164,6 +164,10 @@ namespace SS
         /// </summary>
         public override ISet<string> SetCellContents(string name, string text)
         {
+            if(text == null)
+            {
+                throw new ArgumentNullException();
+            }
             // Check for validity and if item already exists
             if (!validityCheck(name))
             {

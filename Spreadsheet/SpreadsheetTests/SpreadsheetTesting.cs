@@ -196,5 +196,13 @@ namespace SpreadsheetTests
             Assert.IsFalse(result.Contains("A1"));
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNameException))]
+        public void nullTextStringTest()
+        {
+            Spreadsheet test = new Spreadsheet();
+            test.SetCellContents("A!", null);
+        }
+
     }
 }
