@@ -77,7 +77,7 @@ namespace SS
         /// </summary>
         public override object GetCellContents(string name)
         {
-            if (name == null)
+            if (!validityCheck(name))
             {
                 throw new InvalidNameException();
             }
@@ -125,10 +125,6 @@ namespace SS
             {
                 throw new InvalidNameException();
             }
-            if (data.ContainsKey(name))
-            {
-                data.Remove(name);
-            }
             // Gonna add some stuff to my dependency Graph
             ISet<string> deps = formula.GetVariables();
             HashSet<string> depsReplace = new HashSet<string>();
@@ -138,10 +134,14 @@ namespace SS
             }
             depGraph.ReplaceDependents(name, depsReplace);
             // Ok now we can add to cell and evaluate
+            IEnumerable<string> tempList = GetCellsToRecalculate(name);
+            if (data.ContainsKey(name))
+            {
+                data.Remove(name);
+            }
             Cell temp = new Cell();
             temp.setDataF(formula);
             data.Add(name, temp);
-            IEnumerable<string> tempList = GetCellsToRecalculate(name);
             HashSet<string> result = new HashSet<string>();
             foreach(string s in tempList)
             {
