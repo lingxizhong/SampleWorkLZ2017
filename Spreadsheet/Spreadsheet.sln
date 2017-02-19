@@ -5,6 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spreadsheet", "Spreadsheet\Spreadsheet.csproj", "{9025A594-DF2A-4E6A-B8C2-F087ECC3E203}"
 EndProject
+<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyGraph", "DependencyGraph\DependencyGraph.csproj", "{862EAD85-346F-4D2B-A53C-98074FF813BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyGraphTestCases", "DependencyGraphTestCases\DependencyGraphTestCases.csproj", "{F9FAA1E3-ADE1-47B2-8F15-C4AA95E54A9D}"
@@ -22,6 +23,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS4aGradingTests", "PS4aGradingTests\PS4aGradingTests.csproj", "{32ED751C-675D-4F19-9019-598F3A9491A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreadsheetTests", "SpreadsheetTests\SpreadsheetTests.csproj", "{9DB6350A-EABF-4ED2-8968-567F84CDF9EC}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS5GradingTests", "PS5GradingTests\PS5GradingTests.csproj", "{5CE891A3-87AB-409B-874D-AD3622C5F59F}"
+>>>>>>> 14ec8b76ab1fd9e7b0c37200a52caee1334649a5
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,7 @@ Global
 		{9025A594-DF2A-4E6A-B8C2-F087ECC3E203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9025A594-DF2A-4E6A-B8C2-F087ECC3E203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9025A594-DF2A-4E6A-B8C2-F087ECC3E203}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{862EAD85-346F-4D2B-A53C-98074FF813BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{862EAD85-346F-4D2B-A53C-98074FF813BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{862EAD85-346F-4D2B-A53C-98074FF813BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +74,12 @@ Global
 		{9DB6350A-EABF-4ED2-8968-567F84CDF9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DB6350A-EABF-4ED2-8968-567F84CDF9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DB6350A-EABF-4ED2-8968-567F84CDF9EC}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{5CE891A3-87AB-409B-874D-AD3622C5F59F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE891A3-87AB-409B-874D-AD3622C5F59F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE891A3-87AB-409B-874D-AD3622C5F59F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE891A3-87AB-409B-874D-AD3622C5F59F}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> 14ec8b76ab1fd9e7b0c37200a52caee1334649a5
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
