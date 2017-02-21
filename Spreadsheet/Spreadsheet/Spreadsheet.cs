@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Formulas;
 using Dependencies;
 using System.Text.RegularExpressions;
+using System.IO;
 /// <summary>
 /// Implementation by Lingxi Zhong U0770136
 /// </summary>
@@ -21,6 +22,20 @@ namespace SS
         /// </summary>
         private Dictionary<string, Cell> data;
         private DependencyGraph depGraph;
+
+        public override bool Changed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            protected set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         /// <summary>
         /// An AbstractSpreadsheet object represents the state of a simple spreadsheet.  A 
         /// spreadsheet consists of an infinite number of named cells.
@@ -118,7 +133,7 @@ namespace SS
         /// For example, if name is A1, B1 contains A1*2, and C1 contains B1+A1, the
         /// set {A1, B1, C1} is returned.
         /// </summary>
-        public override ISet<string> SetCellContents(string name, Formula formula)
+        protected override ISet<string> SetCellContents(string name, Formula formula)
         {
             // Checking for validity, if the dictionary already contains item, remove it. 
             if (!validityCheck(name))
@@ -162,7 +177,7 @@ namespace SS
         /// For example, if name is A1, B1 contains A1*2, and C1 contains B1+A1, the
         /// set {A1, B1, C1} is returned.
         /// </summary>
-        public override ISet<string> SetCellContents(string name, string text)
+        protected override ISet<string> SetCellContents(string name, string text)
         {
             if(text == null)
             {
@@ -207,7 +222,7 @@ namespace SS
         /// For example, if name is A1, B1 contains A1*2, and C1 contains B1+A1, the
         /// set {A1, B1, C1} is returned.
         /// </summary>
-        public override ISet<string> SetCellContents(string name, double number)
+        protected override ISet<string> SetCellContents(string name, double number)
         {
             if (!validityCheck(name))
             {
@@ -273,6 +288,22 @@ namespace SS
             }
             return true;
         }
+
+        public override void Save(TextWriter dest)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object GetCellValue(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ISet<string> SetContentsOfCell(string name, string content)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 
         /// </summary>
