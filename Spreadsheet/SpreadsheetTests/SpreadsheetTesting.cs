@@ -19,12 +19,12 @@ namespace SpreadsheetTests
         }
 
         [TestMethod]
-        public void BasicSetCellContentsTest()
+        public void BasicSetContentsOfCellTest()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A1", 5.0);
-            test.SetCellContents("A2", new Formula("1+3"));
-            test.SetCellContents("A3", "Hello World");
+            test.SetContentsOfCell("A1", "5.0");
+            test.SetContentsOfCell("A2", "=1+3");
+            test.SetContentsOfCell("A3", "Hello World");
         }
 
         [TestMethod]
@@ -37,10 +37,10 @@ namespace SpreadsheetTests
         }
 
         [TestMethod]
-        public void DoubleSetCellContents()
+        public void DoubleSetContentsOfCell()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A1", 5.5);
+            test.SetContentsOfCell("A1", "5.5");
             double result = (double)test.GetCellContents("A1");
             double expected = 5.5;
             Assert.AreEqual(expected, result);
@@ -50,7 +50,7 @@ namespace SpreadsheetTests
         public void StringSetCellContent()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A1", "Hello World");
+            test.SetContentsOfCell("A1", "Hello World");
             string result = (string)test.GetCellContents("A1");
         }
 
@@ -58,20 +58,18 @@ namespace SpreadsheetTests
         public void FormulaSetCellContentNoVar()
         {
             Spreadsheet test = new Spreadsheet();
-            Formula expected = new Formula("1+3");
-            test.SetCellContents("A1", expected);
+            test.SetContentsOfCell("A1", "=1+3");
             Formula result = (Formula)test.GetCellContents("A1");
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual("1+3", result.ToString());
         }
 
         [TestMethod]
         public void FormulaSetReplaceWithVars()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A1", 2.0);
-            Formula someFormula = new Formula("A1+3");
-            test.SetCellContents("A2", someFormula);
-            ISet<string> tempList = test.SetCellContents("A1", 3.0);
+            test.SetContentsOfCell("A1", "2.0");
+            test.SetContentsOfCell("A2", "=A1+3");
+            ISet<string> tempList = test.SetContentsOfCell("A1", "3.0");
             HashSet<string> result1 = new HashSet<string>();
             foreach(string s in tempList)
             {
@@ -84,11 +82,9 @@ namespace SpreadsheetTests
         public void FormulaSetReplaceWithVars2()
         {
             Spreadsheet test = new Spreadsheet();
-            Formula f1 = new Formula("A1*2"); // Add this to B1
-            Formula f2 = new Formula("B1+A1"); // Add this to C1
-            test.SetCellContents("B1", f1);
-            test.SetCellContents("C1", f2);
-            ISet<string> tempList = test.SetCellContents("A1", 3.0);
+            test.SetContentsOfCell("B1", "=A1*2");
+            test.SetContentsOfCell("C1", "=B1+A1");
+            ISet<string> tempList = test.SetContentsOfCell("A1", "3.0");
             HashSet<string> result1 = new HashSet<string>();
             foreach (string s in tempList)
             {
@@ -103,8 +99,7 @@ namespace SpreadsheetTests
         public void FormulaSetNullElement()
         {
             Spreadsheet test = new Spreadsheet();
-            Formula expected = new Formula("1+3");
-            test.SetCellContents("A01", expected);
+            test.SetContentsOfCell("A01", "=1+3");
         }
 
         [TestMethod]
@@ -112,7 +107,7 @@ namespace SpreadsheetTests
         public void invalidCellNamesCheck()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("Z", "sgsadfjoasjof");
+            test.SetContentsOfCell("Z", "sgsadfjoasjof");
         }
 
         [TestMethod]
@@ -120,7 +115,7 @@ namespace SpreadsheetTests
         public void invalidCellNameCheck2()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("X07", "sdgasdf");
+            test.SetContentsOfCell("X07", "sdgasdf");
         }
 
         [TestMethod]
@@ -128,7 +123,7 @@ namespace SpreadsheetTests
         public void invalidCellNameCheck3()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("hello", "sdfasddfasd");
+            test.SetContentsOfCell("hello", "sdfasddfasd");
         }
 
         [TestMethod]
@@ -136,7 +131,7 @@ namespace SpreadsheetTests
         public void invalidCellnamecheckWithDouble()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A07", 2.0);
+            test.SetContentsOfCell("A07", "2.0");
         }
 
         [TestMethod]
@@ -144,7 +139,7 @@ namespace SpreadsheetTests
         public void nullNameTest()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents(null, 2.0);
+            test.SetContentsOfCell(null, "2.0");
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidNameException))]
@@ -158,9 +153,9 @@ namespace SpreadsheetTests
         public void getNonEmptyCellsTest()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A1", 5.0);
-            test.SetCellContents("A2", new Formula("1+3"));
-            test.SetCellContents("A3", "Hello World");
+            test.SetContentsOfCell("A1", "5.0");
+            test.SetContentsOfCell("A2", "=1+3");
+            test.SetContentsOfCell("A3", "Hello World");
             IEnumerable<string> tempList = test.GetNamesOfAllNonemptyCells();
             HashSet<string> result = new HashSet<string>();
             foreach(string s in tempList)
@@ -176,10 +171,10 @@ namespace SpreadsheetTests
         public void getNonEmptyCellsTestWithRemove()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A1", 5.0);
-            test.SetCellContents("A2", new Formula("1+3"));
-            test.SetCellContents("A3", "Hello World");
-            test.SetCellContents("A3", "");
+            test.SetContentsOfCell("A1", "5.0");
+            test.SetContentsOfCell("A2", "=1+3");
+            test.SetContentsOfCell("A3", "Hello World");
+            test.SetContentsOfCell("A3", "");
             IEnumerable<string> tempList = test.GetNamesOfAllNonemptyCells();
             HashSet<string> result = new HashSet<string>();
             foreach (string s in tempList)
@@ -195,10 +190,10 @@ namespace SpreadsheetTests
         public void replaceWithDoubleCall()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A1", 5.0);
-            test.SetCellContents("A2", new Formula("A1+3"));
-            test.SetCellContents("A3", "Hello World");
-            ISet<string> temp = test.SetCellContents("A2", 6);
+            test.SetContentsOfCell("A1", "5.0");
+            test.SetContentsOfCell("A2", "=A1+3");
+            test.SetContentsOfCell("A3", "Hello World");
+            ISet<string> temp = test.SetContentsOfCell("A2", "6");
             HashSet<string> result = new HashSet<string>();
             foreach(string s in temp)
             {
@@ -212,7 +207,7 @@ namespace SpreadsheetTests
         public void nullTextStringTest()
         {
             Spreadsheet test = new Spreadsheet();
-            test.SetCellContents("A1", null);
+            test.SetContentsOfCell("A1", null);
         }
 
         [TestMethod]
@@ -220,10 +215,8 @@ namespace SpreadsheetTests
         public void circularDependencyException()
         {
             Spreadsheet test = new Spreadsheet();
-            Formula form1 = new Formula("A2+B1");
-            test.SetCellContents("A1", form1);
-            Formula form2 = new Formula("A1+B2");
-            test.SetCellContents("A2", form2);
+            test.SetContentsOfCell("A1", "=A2+B1");
+            test.SetContentsOfCell("A2", "=A1+B2");
         }
     }
 }
