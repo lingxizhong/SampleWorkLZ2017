@@ -7,6 +7,7 @@ using Formulas;
 using Dependencies;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Xml;
 
 // Implementation by Lingxi Zhong U0770136
 namespace SS
@@ -21,8 +22,7 @@ namespace SS
         /// </summary>
         private Dictionary<string, Cell> data;
         private DependencyGraph depGraph;
-
-
+        private Regex isValidRegex;
 
         /// <summary>
         /// Creates an empty Spreadsheet whose IsValid regular expression accepts every string.
@@ -31,6 +31,8 @@ namespace SS
         {
             data = new Dictionary<string, Cell>();
             depGraph = new DependencyGraph();
+            isValidRegex = new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$");
+            Changed = false;
         }
 
         /// <summary>
@@ -39,7 +41,10 @@ namespace SS
         /// <param name="isValid"></param>
         public Spreadsheet(Regex isValid)
         {
-
+            data = new Dictionary<string, Cell>();
+            depGraph = new DependencyGraph();
+            isValidRegex = isValid;
+            Changed = false;
         }
 
         /// <summary>
@@ -77,7 +82,10 @@ namespace SS
         /// <param name="newIsValid"></param>
         public Spreadsheet(TextReader source, Regex newIsValid)
         {
-
+            data = new Dictionary<string, Cell>();
+            depGraph = new DependencyGraph();
+            isValidRegex = newIsValid;
+            Changed = false;
         }
 
         /// <summary>
@@ -281,7 +289,7 @@ namespace SS
             {
                 return false;
             }
-            if(!(Regex.IsMatch(name, @"^[a-zA-Z]+[1-9]+[0-9]*$")))
+            if(!(isValidRegex.IsMatch(name)))
             {
                 return false;
             }
@@ -310,8 +318,31 @@ namespace SS
         /// </summary>
         public override void Save(TextWriter dest)
         {
-            //TODO
-            throw new NotImplementedException();
+            using (XmlWriter xmlWriter = XmlWriter.Create(dest))
+            {
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("spreadsheet");
+                xmlWriter.WriteAttributeString("IsValid", isValidRegex.ToString());
+                Cell tempCell;
+                IEnumerable<string> list = GetNamesOfAllNonemptyCells();
+                foreach(string cellAddress in list)
+                {
+                    data.TryGetValue(cellAddress, out tempCell);
+                    xmlWriter.WriteStartElement("cell");
+                    xmlWriter.WriteAttributeString("name", cellAddress);
+                    if(tempCell.getContents() is Formula)
+                    {
+                        string formulaS = tempCell.getContents().ToString();
+                        formulaS = "=" + formulaS;
+                        xmlWriter.WriteAttributeString("contents", formulaS);
+                    }
+                    else
+                    {
+                        xmlWriter.WriteAttributeString("contents", tempCell.getContents().ToString());
+                    }
+                    xmlWriter.WriteFullEndElement();
+                }
+            }
         }
 
         // ADDED FOR PS6
@@ -320,16 +351,9 @@ namespace SS
         /// (whichever happened most recently); false otherwise.
         /// </summary>
         public override bool Changed
-        { //TODO
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            protected set
-            {
-                throw new NotImplementedException();
-            }
+        {
+            get;
+            protected set;
         }
 
         // ADDED FOR PS6
@@ -395,6 +419,7 @@ namespace SS
             }
             if (content == "")
             {
+                Changed = true;
                 return SetCellContents(name, content);
             }
             double doubResult;
@@ -440,9 +465,10 @@ namespace SS
                     }
                     
                 }
+                Changed = true;
                 return list;
             }
-
+            Changed = true;
             return SetCellContents(name, content);
         }
 
