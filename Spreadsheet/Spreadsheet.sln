@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS5GradingTests", "PS5Gradi
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{36308AF5-83EC-4CD3-B2A8-5BAFE41C5AF2}"
 >>>>>>> 0618479ccc4e7b2c4bc0ed8efc88153de0f83545
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PS6GradingTests", "PS6GradingTests\PS6GradingTests.csproj", "{2145911F-6669-4308-A0F2-63B4C2AAAE5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,7 @@ Global
 		{9025A594-DF2A-4E6A-B8C2-F087ECC3E203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9025A594-DF2A-4E6A-B8C2-F087ECC3E203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9025A594-DF2A-4E6A-B8C2-F087ECC3E203}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 <<<<<<< HEAD
 		{862EAD85-346F-4D2B-A53C-98074FF813BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{862EAD85-346F-4D2B-A53C-98074FF813BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -84,6 +87,12 @@ Global
 		{5CE891A3-87AB-409B-874D-AD3622C5F59F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CE891A3-87AB-409B-874D-AD3622C5F59F}.Release|Any CPU.Build.0 = Release|Any CPU
 >>>>>>> 14ec8b76ab1fd9e7b0c37200a52caee1334649a5
+=======
+		{2145911F-6669-4308-A0F2-63B4C2AAAE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2145911F-6669-4308-A0F2-63B4C2AAAE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2145911F-6669-4308-A0F2-63B4C2AAAE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2145911F-6669-4308-A0F2-63B4C2AAAE5E}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> 231ed0de21b5f92b28bb6532f96fcf8fe49a9a74
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
