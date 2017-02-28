@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SS;
 using System.Collections.Generic;
 using Formulas;
+using System.Text.RegularExpressions;
+using System.IO;
 
 /// <summary>
 /// Testing done by Lingxi Zhong U0770136
@@ -98,7 +100,7 @@ namespace SpreadsheetTests
         [ExpectedException(typeof(InvalidNameException))]
         public void FormulaSetNullElement()
         {
-            Spreadsheet test = new Spreadsheet();
+            Spreadsheet test = new Spreadsheet(new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$"));
             test.SetContentsOfCell("A01", "=1+3");
         }
 
@@ -106,7 +108,7 @@ namespace SpreadsheetTests
         [ExpectedException(typeof(InvalidNameException))]
         public void invalidCellNamesCheck()
         {
-            Spreadsheet test = new Spreadsheet();
+            Spreadsheet test = new Spreadsheet(new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$"));
             test.SetContentsOfCell("Z", "sgsadfjoasjof");
         }
 
@@ -114,7 +116,7 @@ namespace SpreadsheetTests
         [ExpectedException(typeof(InvalidNameException))]
         public void invalidCellNameCheck2()
         {
-            Spreadsheet test = new Spreadsheet();
+            Spreadsheet test = new Spreadsheet(new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$"));
             test.SetContentsOfCell("X07", "sdgasdf");
         }
 
@@ -122,7 +124,7 @@ namespace SpreadsheetTests
         [ExpectedException(typeof(InvalidNameException))]
         public void invalidCellNameCheck3()
         {
-            Spreadsheet test = new Spreadsheet();
+            Spreadsheet test = new Spreadsheet(new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$"));
             test.SetContentsOfCell("hello", "sdfasddfasd");
         }
 
@@ -130,7 +132,7 @@ namespace SpreadsheetTests
         [ExpectedException(typeof(InvalidNameException))]
         public void invalidCellnamecheckWithDouble()
         {
-            Spreadsheet test = new Spreadsheet();
+            Spreadsheet test = new Spreadsheet(new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$"));
             test.SetContentsOfCell("A07", "2.0");
         }
 
@@ -218,5 +220,46 @@ namespace SpreadsheetTests
             test.SetContentsOfCell("A1", "=A2+B1");
             test.SetContentsOfCell("A2", "=A1+B2");
         }
+
+        // PS6 Tests Begin
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNameException))]
+        public void secondConstructorTest()
+        {
+            Spreadsheet test = new Spreadsheet(new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$"));
+            test.SetContentsOfCell("2A", "wat");
+        }
+
+        [TestMethod]
+        public void savingAXMLFileTest()
+        {
+            Spreadsheet xmlTest = new Spreadsheet(new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$"));
+            xmlTest.SetContentsOfCell("A1", "String");
+            xmlTest.SetContentsOfCell("A2", "2.3");
+            xmlTest.SetContentsOfCell("A3", "=2+3");
+            TextWriter firstXMLTest = new StreamWriter("firstXMLTest.xml");
+            xmlTest.Save(firstXMLTest);
+        }
+
+        [TestMethod]
+        public void readinginAXMLFileTest()
+        {
+            TextReader secondXMLTest = new StreamReader("firstXMLRead.xml");
+            Spreadsheet readInXML = new Spreadsheet(secondXMLTest, new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$"));
+            string result1 = (string)readInXML.GetCellValue("A1");
+            double result2 = (double)readInXML.GetCellValue("A2");
+            double result3 = (double)readInXML.GetCellValue("A3");
+            Assert.AreEqual("String", result1);
+            Assert.AreEqual(2.3, result2, .001);
+            Assert.AreEqual(5, result3, .001);
+            Assert.IsFalse(readInXML.Changed);
+            readInXML.SetContentsOfCell("A1", "eyy");
+            Assert.IsTrue(readInXML.Changed);
+            TextWriter secXMLTest = new StreamWriter("secXMLTest.xml");
+            readInXML.Save(secXMLTest);
+            Assert.IsFalse(readInXML.Changed);
+        }
+      
+
     }
 }

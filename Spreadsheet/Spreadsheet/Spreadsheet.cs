@@ -8,6 +8,7 @@ using Dependencies;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml;
+using System.Xml.Schema;
 
 // Implementation by Lingxi Zhong U0770136
 namespace SS
@@ -31,7 +32,7 @@ namespace SS
         {
             data = new Dictionary<string, Cell>();
             depGraph = new DependencyGraph();
-            isValidRegex = new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$");
+            isValidRegex = new Regex(".*?");
             Changed = false;
         }
 
@@ -84,8 +85,65 @@ namespace SS
         {
             data = new Dictionary<string, Cell>();
             depGraph = new DependencyGraph();
+            
+
+            // Create the XmlSchemaSet class.  Anything with the namespace "urn:states-schema" will
+            // be validated against states3.xsd.
+            XmlSchemaSet sc = new XmlSchemaSet();
+
+            // NOTE: To read states3.xsd this way, it must be stored in the same folder with the
+            // executable.  To arrange this, I set the "Copy to Output Directory" propery of states3.xsd to
+            // "Copy If Newer", which will copy states3.xsd as part of each build (if it has changed
+            // since the last build).
+            sc.Add(null, "Spreadsheet.xsd");
+
+            // Configure validation.
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
+            settings.Schemas = sc;
+            settings.ValidationEventHandler += ValidationCallback;
+
+            using (XmlReader reader = XmlReader.Create(source, settings))
+            {
+                while (reader.Read())
+                {
+                    if (reader.IsStartElement())
+                    {
+                        switch (reader.Name)
+                        {
+                            case "spreadsheet":
+                                try
+                                {
+                                    isValidRegex = new Regex(reader["IsValid"]);
+                                }catch(Exception)
+                                {
+                                    throw new SpreadsheetReadException("Regex not Valid");
+                                }
+
+                                break;
+
+                            case "cell":
+                                try
+                                {
+                                    SetContentsOfCell(reader["name"], reader["contents"]);
+                                } catch(Exception)
+                                {
+                                    throw new SpreadsheetReadException("Something went wrong");
+                                }
+                                
+                                break;
+                        }
+                    }
+                }
+            }
             isValidRegex = newIsValid;
             Changed = false;
+        }
+
+        // Display any validation errors.
+        private static void ValidationCallback(object sender, ValidationEventArgs e)
+        {
+            Console.WriteLine(" *** Validation Error: {0}", e.Message);
         }
 
         /// <summary>
@@ -343,6 +401,7 @@ namespace SS
                     xmlWriter.WriteFullEndElement();
                 }
             }
+            Changed = false;
         }
 
         // ADDED FOR PS6
