@@ -36,9 +36,10 @@
             // 
             // spreadsheetPanel1
             // 
-            this.spreadsheetPanel1.Location = new System.Drawing.Point(12, 66);
+            this.spreadsheetPanel1.Location = new System.Drawing.Point(4, 28);
+            this.spreadsheetPanel1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.spreadsheetPanel1.Name = "spreadsheetPanel1";
-            this.spreadsheetPanel1.Size = new System.Drawing.Size(2178, 1397);
+            this.spreadsheetPanel1.Size = new System.Drawing.Size(817, 586);
             this.spreadsheetPanel1.TabIndex = 0;
             // 
             // menuStrip1
@@ -48,24 +49,26 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2202, 49);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(2, 1, 0, 1);
+            this.menuStrip1.Size = new System.Drawing.Size(723, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 22);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // SpreadsheetGUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2202, 1485);
+            this.ClientSize = new System.Drawing.Size(723, 446);
             this.Controls.Add(this.spreadsheetPanel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.Name = "SpreadsheetGUI";
             this.Text = "File Names Go here";
             this.menuStrip1.ResumeLayout(false);
