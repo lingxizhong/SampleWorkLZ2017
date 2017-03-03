@@ -38,7 +38,7 @@
             // 
             this.spreadsheetPanel1.Location = new System.Drawing.Point(12, 49);
             this.spreadsheetPanel1.Name = "spreadsheetPanel1";
-            this.spreadsheetPanel1.Size = new System.Drawing.Size(1545, 1038);
+            this.spreadsheetPanel1.Size = new System.Drawing.Size(1560, 1038);
             this.spreadsheetPanel1.TabIndex = 0;
             // 
             // menuStrip1
