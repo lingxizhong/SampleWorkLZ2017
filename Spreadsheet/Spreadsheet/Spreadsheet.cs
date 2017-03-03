@@ -85,7 +85,7 @@ namespace SS
         {
             data = new Dictionary<string, Cell>();
             depGraph = new DependencyGraph();
-            
+
 
             // Create the XmlSchemaSet class.  Anything with the namespace "urn:states-schema" will
             // be validated against states3.xsd.
@@ -102,7 +102,6 @@ namespace SS
             settings.ValidationType = ValidationType.Schema;
             settings.Schemas = sc;
             settings.ValidationEventHandler += ValidationCallback;
-
             using (XmlReader reader = XmlReader.Create(source, settings))
             {
                 while (reader.Read())
@@ -115,7 +114,8 @@ namespace SS
                                 try
                                 {
                                     isValidRegex = new Regex(reader["IsValid"]);
-                                }catch(Exception)
+                                }
+                                catch (Exception)
                                 {
                                     throw new SpreadsheetReadException("Regex not Valid");
                                 }
@@ -125,18 +125,33 @@ namespace SS
                             case "cell":
                                 try
                                 {
+                                    Cell temp;
+                                    Boolean flag = data.TryGetValue(reader["name"], out temp);
+                                    if (flag == true)
+                                    {
+                                        throw new SpreadsheetReadException("Cell Already Exists");
+                                    }
                                     SetContentsOfCell(reader["name"], reader["contents"]);
-                                } catch(Exception)
+                                }
+                                catch (Exception)
                                 {
                                     throw new SpreadsheetReadException("Something went wrong");
                                 }
-                                
+
                                 break;
                         }
                     }
                 }
             }
             isValidRegex = newIsValid;
+            IEnumerable<string> versionCheckList = GetNamesOfAllNonemptyCells();
+            foreach(string cellNames in versionCheckList)
+            {
+                if(!Regex.IsMatch(cellNames, newIsValid.ToString()))
+                {
+                    throw new SpreadsheetVersionException("Invalid cell name with new regex");
+                }
+            }
             Changed = false;
         }
 
@@ -154,6 +169,7 @@ namespace SS
         /// </summary>
         public override object GetCellContents(string name)
         {
+            name = name.ToUpper();
             if (!validityCheck(name))
             {
                 throw new InvalidNameException();
@@ -343,11 +359,11 @@ namespace SS
         /// <returns></returns>
         private Boolean validityCheck(String name)
         {
-            if(name == null)
+            if (name == null)
             {
                 return false;
             }
-            if(!(isValidRegex.IsMatch(name)))
+            if (!(isValidRegex.IsMatch(name)))
             {
                 return false;
             }
@@ -383,12 +399,12 @@ namespace SS
                 xmlWriter.WriteAttributeString("IsValid", isValidRegex.ToString());
                 Cell tempCell;
                 IEnumerable<string> list = GetNamesOfAllNonemptyCells();
-                foreach(string cellAddress in list)
+                foreach (string cellAddress in list)
                 {
                     data.TryGetValue(cellAddress, out tempCell);
                     xmlWriter.WriteStartElement("cell");
                     xmlWriter.WriteAttributeString("name", cellAddress);
-                    if(tempCell.getContents() is Formula)
+                    if (tempCell.getContents() is Formula)
                     {
                         string formulaS = tempCell.getContents().ToString();
                         formulaS = "=" + formulaS;
@@ -424,6 +440,7 @@ namespace SS
         /// </summary>
         public override object GetCellValue(string name)
         {
+            name = name.ToUpper();
             if (!validityCheck(name))
             {
                 throw new InvalidNameException();
@@ -471,8 +488,9 @@ namespace SS
         /// </summary>
         public override ISet<string> SetContentsOfCell(string name, string content)
         {
+            name = name.ToUpper();
             validityCheck(name);
-            if(content == null)
+            if (content == null)
             {
                 throw new ArgumentNullException();
             }
@@ -498,10 +516,11 @@ namespace SS
                     }
                     catch (FormulaEvaluationException)
                     {
-                        temp.value = new FormulaEvaluationException("Form Error");
+                        temp.value = new FormulaError();
                     }
                 }
                 list.Add(name);
+                Changed = true;
                 return list;
             }
             // If input is a formula
@@ -513,16 +532,19 @@ namespace SS
                 foreach (string s in list)
                 {
                     Cell temp;
-                    data.TryGetValue(s, out temp);
+                    bool check = data.TryGetValue(s, out temp);
+                    if (check == false)
+                    {
+                        temp = new Cell();
+                    }
                     try
                     {
                         temp.value = ((Formula)temp.getContents()).Evaluate(formulaCheck);
                     }
-                    catch(FormulaEvaluationException)
+                    catch
                     {
-                        temp.value = new FormulaEvaluationException("Form Error");
+                        temp.value = new FormulaError();
                     }
-                    
                 }
                 Changed = true;
                 return list;
@@ -553,7 +575,7 @@ namespace SS
             /// <summary>
             /// The contents of a cell
             /// </summary>
-            private Object contents; 
+            private Object contents;
             /// <summary>
             /// Nested class object for handling spreadsheet cells
             /// </summary>
