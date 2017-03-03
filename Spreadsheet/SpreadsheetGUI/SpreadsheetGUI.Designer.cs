@@ -36,9 +36,9 @@
             // 
             // spreadsheetPanel1
             // 
-            this.spreadsheetPanel1.Location = new System.Drawing.Point(12, 49);
+            this.spreadsheetPanel1.Location = new System.Drawing.Point(12, 66);
             this.spreadsheetPanel1.Name = "spreadsheetPanel1";
-            this.spreadsheetPanel1.Size = new System.Drawing.Size(1560, 1038);
+            this.spreadsheetPanel1.Size = new System.Drawing.Size(2178, 1397);
             this.spreadsheetPanel1.TabIndex = 0;
             // 
             // menuStrip1
@@ -48,7 +48,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1584, 49);
+            this.menuStrip1.Size = new System.Drawing.Size(2202, 49);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -62,12 +62,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1584, 1099);
+            this.ClientSize = new System.Drawing.Size(2202, 1485);
             this.Controls.Add(this.spreadsheetPanel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SpreadsheetGUI";
-            this.Text = "Form1";
+            this.Text = "File Names Go here";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
