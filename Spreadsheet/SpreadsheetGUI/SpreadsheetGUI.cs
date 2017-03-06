@@ -37,5 +37,10 @@ namespace SpreadsheetGUI
         {
             SpreadsheetGUIApplicationContext.GetContext().RunNew();
         }
+
+        private void spreadsheetPanel_Load(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

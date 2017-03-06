@@ -28,20 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.spreadsheetPanel1 = new SSGui.SpreadsheetPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileMenuNewWindowButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.spreadsheetPanel = new SSGui.SpreadsheetPanel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // spreadsheetPanel1
-            // 
-            this.spreadsheetPanel1.Location = new System.Drawing.Point(11, 67);
-            this.spreadsheetPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.spreadsheetPanel1.Name = "spreadsheetPanel1";
-            this.spreadsheetPanel1.Size = new System.Drawing.Size(2179, 1397);
-            this.spreadsheetPanel1.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -51,7 +43,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1928, 49);
+            this.menuStrip1.Size = new System.Drawing.Size(978, 49);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -66,16 +58,28 @@
             // fileMenuNewWindowButton
             // 
             this.fileMenuNewWindowButton.Name = "fileMenuNewWindowButton";
-            this.fileMenuNewWindowButton.Size = new System.Drawing.Size(327, 46);
+            this.fileMenuNewWindowButton.Size = new System.Drawing.Size(193, 46);
             this.fileMenuNewWindowButton.Text = "New";
             this.fileMenuNewWindowButton.Click += new System.EventHandler(this.fileMenuNewWindowButton_Click);
+            // 
+            // spreadsheetPanel
+            // 
+            this.spreadsheetPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.spreadsheetPanel.AutoScroll = true;
+            this.spreadsheetPanel.Location = new System.Drawing.Point(0, 52);
+            this.spreadsheetPanel.Name = "spreadsheetPanel";
+            this.spreadsheetPanel.Size = new System.Drawing.Size(978, 637);
+            this.spreadsheetPanel.TabIndex = 2;
+            this.spreadsheetPanel.Load += new System.EventHandler(this.spreadsheetPanel_Load);
             // 
             // SpreadsheetGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1928, 1064);
-            this.Controls.Add(this.spreadsheetPanel1);
+            this.ClientSize = new System.Drawing.Size(978, 701);
+            this.Controls.Add(this.spreadsheetPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -89,11 +93,10 @@
         }
 
         #endregion
-
-        private SSGui.SpreadsheetPanel spreadsheetPanel1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileMenuNewWindowButton;
+        private SSGui.SpreadsheetPanel spreadsheetPanel;
     }
 }
 
