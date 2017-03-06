@@ -72,7 +72,7 @@
             this.spreadsheetPanel.Name = "spreadsheetPanel";
             this.spreadsheetPanel.Size = new System.Drawing.Size(978, 637);
             this.spreadsheetPanel.TabIndex = 2;
-            this.spreadsheetPanel.Load += new System.EventHandler(this.spreadsheetPanel_Load);
+            this.spreadsheetPanel.SelectionChanged += new SSGui.SelectionChangedHandler(this.ssPanelCellChange);
             // 
             // SpreadsheetGUI
             // 

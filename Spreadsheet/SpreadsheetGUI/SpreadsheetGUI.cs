@@ -19,7 +19,8 @@ namespace SpreadsheetGUI
 
 
         public event Action NewEvent;
-
+        public event Action<int, int> SelectionEvent;
+       
         /// <summary>
         /// This is the New button in the File menu 
         /// </summary>
@@ -38,9 +39,16 @@ namespace SpreadsheetGUI
             SpreadsheetGUIApplicationContext.GetContext().RunNew();
         }
 
-        private void spreadsheetPanel_Load(object sender, EventArgs e)
+        private void ssPanelCellChange(SSGui.SpreadsheetPanel sender)
         {
-            
+            int column;
+            int row;
+            sender.GetSelection(out column, out row);
+            if (SelectionEvent != null)
+            {
+                SelectionEvent(column, row);
+            }
         }
+
     }
 }
