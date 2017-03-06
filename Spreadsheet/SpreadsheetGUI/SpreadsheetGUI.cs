@@ -16,5 +16,21 @@ namespace SpreadsheetGUI
         {
             InitializeComponent();
         }
+
+
+        public event Action NewEvent;
+
+        /// <summary>
+        /// This is the New button in the File menu 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fileMenuNewWindowButton_Click(object sender, EventArgs e)
+        {
+            if (NewEvent != null)
+            {
+                NewEvent();
+            }
+        }
     }
 }
