@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Launch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpreadsheetGUIApplicationContext.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

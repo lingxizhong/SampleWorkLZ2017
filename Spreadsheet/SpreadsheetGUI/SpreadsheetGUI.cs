@@ -32,5 +32,10 @@ namespace SpreadsheetGUI
                 NewEvent();
             }
         }
+
+        public void OpenNew()
+        {
+            SpreadsheetGUIApplicationContext.GetContext().RunNew();
+        }
     }
 }
