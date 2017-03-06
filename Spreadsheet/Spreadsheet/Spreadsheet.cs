@@ -169,11 +169,11 @@ namespace SS
         /// </summary>
         public override object GetCellContents(string name)
         {
-            name = name.ToUpper();
             if (!validityCheck(name))
             {
                 throw new InvalidNameException();
             }
+            name = name.ToUpper();
             Cell temp;
             Boolean check = data.TryGetValue(name, out temp);
             if (check == false)
@@ -488,6 +488,10 @@ namespace SS
         /// </summary>
         public override ISet<string> SetContentsOfCell(string name, string content)
         {
+            if (name == null)
+            {
+                throw new InvalidNameException();
+            }
             name = name.ToUpper();
             validityCheck(name);
             if (content == null)
