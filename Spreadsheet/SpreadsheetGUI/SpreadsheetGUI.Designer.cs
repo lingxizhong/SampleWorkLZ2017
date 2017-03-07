@@ -40,6 +40,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.SaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +52,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1547, 52);
+            this.menuStrip1.Size = new System.Drawing.Size(1547, 49);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -60,7 +61,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenuNewWindowButton,
             this.OpenMenuItem,
-            this.SaveMenuItem});
+            this.SaveMenuItem,
+            this.HelpMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 48);
             this.fileToolStripMenuItem.Text = "File";
@@ -114,7 +116,6 @@
             this.ContentsTextBox.Name = "ContentsTextBox";
             this.ContentsTextBox.Size = new System.Drawing.Size(1365, 38);
             this.ContentsTextBox.TabIndex = 5;
-            this.ContentsTextBox.TextChanged += new System.EventHandler(this.contentBoxChange);
             this.ContentsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ContentsKeyPress);
             // 
             // StaticCellNameTextBox
@@ -158,6 +159,13 @@
             this.OpenMenuItem.Text = "Open";
             this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
             // 
+            // HelpMenuItem
+            // 
+            this.HelpMenuItem.Name = "HelpMenuItem";
+            this.HelpMenuItem.Size = new System.Drawing.Size(327, 46);
+            this.HelpMenuItem.Text = "Help";
+            this.HelpMenuItem.Click += new System.EventHandler(this.HelpMenuItem_Click);
+            // 
             // SpreadsheetGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -195,6 +203,7 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ToolStripMenuItem SaveMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem HelpMenuItem;
     }
 }
 
