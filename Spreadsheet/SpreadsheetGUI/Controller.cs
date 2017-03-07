@@ -41,7 +41,7 @@ namespace SpreadsheetGUI
 
         private void valueRecalculating(string contents)
         {
-            window.CellValue = (string)data.GetCellValue(contents);
+            window.CellValue = data.GetCellValue(contents).ToString();
         }
 
         private string getCellName(int column, int row)

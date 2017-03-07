@@ -98,7 +98,7 @@
             this.ValueTextBox.Location = new System.Drawing.Point(378, 70);
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.ReadOnly = true;
-            this.ValueTextBox.Size = new System.Drawing.Size(1111, 38);
+            this.ValueTextBox.Size = new System.Drawing.Size(1128, 38);
             this.ValueTextBox.TabIndex = 4;
             // 
             // ContentsTextBox

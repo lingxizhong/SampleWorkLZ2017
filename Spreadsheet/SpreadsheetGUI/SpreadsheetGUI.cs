@@ -88,8 +88,9 @@ namespace SpreadsheetGUI
         {
             char temp = input[0];
             col = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(temp);
-            input.Remove(0);
+            input = input.Remove(0, 1);
             Int32.TryParse(input, out row);
+            row = row - 1;
         }
     }
 }
