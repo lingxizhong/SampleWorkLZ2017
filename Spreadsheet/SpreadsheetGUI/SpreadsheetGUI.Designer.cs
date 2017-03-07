@@ -32,6 +32,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileMenuNewWindowButton = new System.Windows.Forms.ToolStripMenuItem();
             this.spreadsheetPanel = new SSGui.SpreadsheetPanel();
+            this.CellNameTextBox = new System.Windows.Forms.TextBox();
+            this.ValueTextBox = new System.Windows.Forms.TextBox();
+            this.ContentsTextBox = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,7 +46,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(978, 49);
+            this.menuStrip1.Size = new System.Drawing.Size(1547, 49);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -68,17 +71,52 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.spreadsheetPanel.AutoScroll = true;
-            this.spreadsheetPanel.Location = new System.Drawing.Point(0, 52);
+            this.spreadsheetPanel.Location = new System.Drawing.Point(0, 204);
             this.spreadsheetPanel.Name = "spreadsheetPanel";
-            this.spreadsheetPanel.Size = new System.Drawing.Size(978, 637);
+            this.spreadsheetPanel.Size = new System.Drawing.Size(1547, 576);
             this.spreadsheetPanel.TabIndex = 2;
             this.spreadsheetPanel.SelectionChanged += new SSGui.SelectionChangedHandler(this.ssPanelCellChange);
+            // 
+            // CellNameTextBox
+            // 
+            this.CellNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CellNameTextBox.Location = new System.Drawing.Point(0, 71);
+            this.CellNameTextBox.Name = "CellNameTextBox";
+            this.CellNameTextBox.ReadOnly = true;
+            this.CellNameTextBox.Size = new System.Drawing.Size(106, 38);
+            this.CellNameTextBox.TabIndex = 3;
+            // 
+            // ValueTextBox
+            // 
+            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.Location = new System.Drawing.Point(173, 71);
+            this.ValueTextBox.Name = "ValueTextBox";
+            this.ValueTextBox.ReadOnly = true;
+            this.ValueTextBox.Size = new System.Drawing.Size(1316, 38);
+            this.ValueTextBox.TabIndex = 4;
+            // 
+            // ContentsTextBox
+            // 
+            this.ContentsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ContentsTextBox.Location = new System.Drawing.Point(0, 132);
+            this.ContentsTextBox.Name = "ContentsTextBox";
+            this.ContentsTextBox.Size = new System.Drawing.Size(1489, 38);
+            this.ContentsTextBox.TabIndex = 5;
+            this.ContentsTextBox.TextChanged += new System.EventHandler(this.contentBoxChange);
             // 
             // SpreadsheetGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(978, 701);
+            this.ClientSize = new System.Drawing.Size(1547, 792);
+            this.Controls.Add(this.ContentsTextBox);
+            this.Controls.Add(this.ValueTextBox);
+            this.Controls.Add(this.CellNameTextBox);
             this.Controls.Add(this.spreadsheetPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -97,6 +135,9 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileMenuNewWindowButton;
         private SSGui.SpreadsheetPanel spreadsheetPanel;
+        private System.Windows.Forms.TextBox CellNameTextBox;
+        private System.Windows.Forms.TextBox ValueTextBox;
+        private System.Windows.Forms.TextBox ContentsTextBox;
     }
 }
 

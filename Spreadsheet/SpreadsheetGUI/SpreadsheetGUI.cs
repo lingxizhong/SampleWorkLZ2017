@@ -19,8 +19,12 @@ namespace SpreadsheetGUI
 
 
         public event Action NewEvent;
+        public event Action<string> InitialContentChange;
         public event Action<int, int> SelectionEvent;
-       
+        public event Action<string> CellRecalcEvent;
+        private int row;
+        private int column;
+
         /// <summary>
         /// This is the New button in the File menu 
         /// </summary>
@@ -34,6 +38,11 @@ namespace SpreadsheetGUI
             }
         }
 
+        public string CellValue { get; set; }
+        public string CellContents { get; set; }
+
+        public IEnumerable<string> cellRecalc { get; set; }
+
         public void OpenNew()
         {
             SpreadsheetGUIApplicationContext.GetContext().RunNew();
@@ -41,14 +50,48 @@ namespace SpreadsheetGUI
 
         private void ssPanelCellChange(SSGui.SpreadsheetPanel sender)
         {
-            int column;
-            int row;
             sender.GetSelection(out column, out row);
             if (SelectionEvent != null)
             {
                 SelectionEvent(column, row);
             }
+            CellNameTextBox.Text = "" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[column] + (row + 1);
+            ValueTextBox.Text = CellValue;
+            ContentsTextBox.Text = CellContents;
         }
 
+
+
+        private void contentBoxChange(object sender, EventArgs e)
+        {
+            
+            if (InitialContentChange != null)
+            {
+                InitialContentChange((string)ContentsTextBox.Text);
+            }
+
+            foreach(string cellNames in cellRecalc)
+            {
+                if (CellRecalcEvent != null)
+                {
+                    CellRecalcEvent(cellNames);
+                }
+                int rowRC;
+                int colRC;
+                getRowCol(cellNames, out colRC, out rowRC);
+                spreadsheetPanel.SetValue(colRC, rowRC, CellValue);
+            }
+
+
+        }
+
+
+        private void getRowCol(string input, out int col, out int row)
+        {
+            char temp = input[0];
+            col = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(temp);
+            input.Remove(0);
+            Int32.TryParse(input, out row);
+        }
     }
 }
