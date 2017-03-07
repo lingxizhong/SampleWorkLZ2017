@@ -38,6 +38,8 @@
             this.StaticCellNameTextBox = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.SaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,22 +51,24 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1547, 49);
+            this.menuStrip1.Size = new System.Drawing.Size(1547, 52);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileMenuNewWindowButton});
+            this.fileMenuNewWindowButton,
+            this.OpenMenuItem,
+            this.SaveMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 48);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // fileMenuNewWindowButton
             // 
             this.fileMenuNewWindowButton.Name = "fileMenuNewWindowButton";
-            this.fileMenuNewWindowButton.Size = new System.Drawing.Size(193, 46);
+            this.fileMenuNewWindowButton.Size = new System.Drawing.Size(327, 46);
             this.fileMenuNewWindowButton.Text = "New";
             this.fileMenuNewWindowButton.Click += new System.EventHandler(this.fileMenuNewWindowButton_Click);
             // 
@@ -111,6 +115,7 @@
             this.ContentsTextBox.Size = new System.Drawing.Size(1365, 38);
             this.ContentsTextBox.TabIndex = 5;
             this.ContentsTextBox.TextChanged += new System.EventHandler(this.contentBoxChange);
+            this.ContentsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ContentsKeyPress);
             // 
             // StaticCellNameTextBox
             // 
@@ -138,6 +143,20 @@
             this.textBox2.Size = new System.Drawing.Size(122, 38);
             this.textBox2.TabIndex = 8;
             this.textBox2.Text = "Contents";
+            // 
+            // SaveMenuItem
+            // 
+            this.SaveMenuItem.Name = "SaveMenuItem";
+            this.SaveMenuItem.Size = new System.Drawing.Size(327, 46);
+            this.SaveMenuItem.Text = "Save";
+            this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
+            // 
+            // OpenMenuItem
+            // 
+            this.OpenMenuItem.Name = "OpenMenuItem";
+            this.OpenMenuItem.Size = new System.Drawing.Size(327, 46);
+            this.OpenMenuItem.Text = "Open";
+            this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
             // 
             // SpreadsheetGUI
             // 
@@ -174,6 +193,8 @@
         private System.Windows.Forms.TextBox StaticCellNameTextBox;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.ToolStripMenuItem SaveMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
     }
 }
 

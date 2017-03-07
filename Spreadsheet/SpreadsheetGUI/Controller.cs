@@ -31,7 +31,8 @@ namespace SpreadsheetGUI
         private void HandleSelection(int column, int row)
         {
             currentCellName = getCellName(column, row);
-            window.CellValue = (string)data.GetCellValue(currentCellName);
+            window.CellValue = data.GetCellValue(currentCellName).ToString();
+            window.CellContents = data.GetCellContents(currentCellName).ToString();
         }
 
         private void ContentSetting(string contents)
