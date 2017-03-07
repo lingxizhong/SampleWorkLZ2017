@@ -81,8 +81,6 @@ namespace SpreadsheetGUI
                 getRowCol(cellNames, out colRC, out rowRC);
                 spreadsheetPanel.SetValue(colRC, rowRC, CellValue);
             }
-
-
         }
 
 

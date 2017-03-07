@@ -35,6 +35,9 @@
             this.CellNameTextBox = new System.Windows.Forms.TextBox();
             this.ValueTextBox = new System.Windows.Forms.TextBox();
             this.ContentsTextBox = new System.Windows.Forms.TextBox();
+            this.StaticCellNameTextBox = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,7 +84,7 @@
             // 
             this.CellNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.CellNameTextBox.Location = new System.Drawing.Point(0, 71);
+            this.CellNameTextBox.Location = new System.Drawing.Point(76, 70);
             this.CellNameTextBox.Name = "CellNameTextBox";
             this.CellNameTextBox.ReadOnly = true;
             this.CellNameTextBox.Size = new System.Drawing.Size(106, 38);
@@ -92,10 +95,10 @@
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ValueTextBox.Location = new System.Drawing.Point(173, 71);
+            this.ValueTextBox.Location = new System.Drawing.Point(378, 70);
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.ReadOnly = true;
-            this.ValueTextBox.Size = new System.Drawing.Size(1316, 38);
+            this.ValueTextBox.Size = new System.Drawing.Size(1111, 38);
             this.ValueTextBox.TabIndex = 4;
             // 
             // ContentsTextBox
@@ -103,17 +106,47 @@
             this.ContentsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ContentsTextBox.Location = new System.Drawing.Point(0, 132);
+            this.ContentsTextBox.Location = new System.Drawing.Point(141, 131);
             this.ContentsTextBox.Name = "ContentsTextBox";
-            this.ContentsTextBox.Size = new System.Drawing.Size(1489, 38);
+            this.ContentsTextBox.Size = new System.Drawing.Size(1365, 38);
             this.ContentsTextBox.TabIndex = 5;
             this.ContentsTextBox.TextChanged += new System.EventHandler(this.contentBoxChange);
+            // 
+            // StaticCellNameTextBox
+            // 
+            this.StaticCellNameTextBox.Location = new System.Drawing.Point(13, 70);
+            this.StaticCellNameTextBox.Name = "StaticCellNameTextBox";
+            this.StaticCellNameTextBox.ReadOnly = true;
+            this.StaticCellNameTextBox.Size = new System.Drawing.Size(57, 38);
+            this.StaticCellNameTextBox.TabIndex = 6;
+            this.StaticCellNameTextBox.Text = "Cell";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(294, 70);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(78, 38);
+            this.textBox1.TabIndex = 7;
+            this.textBox1.Text = "Value";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(13, 131);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(122, 38);
+            this.textBox2.TabIndex = 8;
+            this.textBox2.Text = "Contents";
             // 
             // SpreadsheetGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1547, 792);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.StaticCellNameTextBox);
             this.Controls.Add(this.ContentsTextBox);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.CellNameTextBox);
@@ -138,6 +171,9 @@
         private System.Windows.Forms.TextBox CellNameTextBox;
         private System.Windows.Forms.TextBox ValueTextBox;
         private System.Windows.Forms.TextBox ContentsTextBox;
+        private System.Windows.Forms.TextBox StaticCellNameTextBox;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
