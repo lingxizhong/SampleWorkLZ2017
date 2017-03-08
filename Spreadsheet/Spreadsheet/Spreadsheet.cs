@@ -518,7 +518,7 @@ namespace SS
                     {
                         temp.value = ((Formula)temp.getContents()).Evaluate(formulaCheck);
                     }
-                    catch (FormulaEvaluationException)
+                    catch
                     {
                         temp.value = new FormulaError();
                     }
@@ -553,8 +553,30 @@ namespace SS
                 Changed = true;
                 return list;
             }
+
             Changed = true;
-            return SetCellContents(name, content);
+            list = SetCellContents(name, content);
+            list.Remove(name);
+            foreach (string s in list)
+            {
+                Cell temp;
+                bool check = data.TryGetValue(s, out temp);
+                if (check == false)
+                {
+                    temp = new Cell();
+                }
+                try
+                {
+                    temp.value = ((Formula)temp.getContents()).Evaluate(formulaCheck);
+                }
+                catch
+                {
+                    temp.value = new FormulaError();
+                }
+            }
+            list.Add(name);
+            Changed = true;
+            return list;
         }
 
         private double formulaCheck(string name)

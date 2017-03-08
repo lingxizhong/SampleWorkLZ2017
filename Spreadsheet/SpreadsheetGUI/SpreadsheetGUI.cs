@@ -266,7 +266,9 @@ namespace SpreadsheetGUI
         /// <param name="e"></param>
         public void HelpMenuItem_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("To start editing, first choose a cell. Then clicking the contents box will allow you to type."
+                + "\n Pressing Enter (return) will parse the contents box into the selected cell."
+                + "\n Save will allow you to save files, default in the .ss form. The Open will allow you to open .ss files");
         }
     }
 }

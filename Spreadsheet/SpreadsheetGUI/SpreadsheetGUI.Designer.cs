@@ -31,6 +31,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileMenuNewWindowButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spreadsheetPanel = new SSGui.SpreadsheetPanel();
             this.CellNameTextBox = new System.Windows.Forms.TextBox();
             this.ValueTextBox = new System.Windows.Forms.TextBox();
@@ -38,9 +41,6 @@
             this.StaticCellNameTextBox = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.SaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +64,7 @@
             this.SaveMenuItem,
             this.HelpMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 48);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // fileMenuNewWindowButton
@@ -73,6 +73,27 @@
             this.fileMenuNewWindowButton.Size = new System.Drawing.Size(327, 46);
             this.fileMenuNewWindowButton.Text = "New";
             this.fileMenuNewWindowButton.Click += new System.EventHandler(this.fileMenuNewWindowButton_Click);
+            // 
+            // OpenMenuItem
+            // 
+            this.OpenMenuItem.Name = "OpenMenuItem";
+            this.OpenMenuItem.Size = new System.Drawing.Size(327, 46);
+            this.OpenMenuItem.Text = "Open";
+            this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
+            // 
+            // SaveMenuItem
+            // 
+            this.SaveMenuItem.Name = "SaveMenuItem";
+            this.SaveMenuItem.Size = new System.Drawing.Size(327, 46);
+            this.SaveMenuItem.Text = "Save";
+            this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
+            // 
+            // HelpMenuItem
+            // 
+            this.HelpMenuItem.Name = "HelpMenuItem";
+            this.HelpMenuItem.Size = new System.Drawing.Size(327, 46);
+            this.HelpMenuItem.Text = "Help";
+            this.HelpMenuItem.Click += new System.EventHandler(this.HelpMenuItem_Click);
             // 
             // spreadsheetPanel
             // 
@@ -90,10 +111,11 @@
             // 
             this.CellNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.CellNameTextBox.Location = new System.Drawing.Point(76, 70);
+            this.CellNameTextBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CellNameTextBox.Location = new System.Drawing.Point(110, 70);
             this.CellNameTextBox.Name = "CellNameTextBox";
             this.CellNameTextBox.ReadOnly = true;
-            this.CellNameTextBox.Size = new System.Drawing.Size(106, 38);
+            this.CellNameTextBox.Size = new System.Drawing.Size(106, 53);
             this.CellNameTextBox.TabIndex = 3;
             // 
             // ValueTextBox
@@ -101,10 +123,11 @@
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ValueTextBox.Location = new System.Drawing.Point(378, 70);
+            this.ValueTextBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ValueTextBox.Location = new System.Drawing.Point(413, 70);
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.ReadOnly = true;
-            this.ValueTextBox.Size = new System.Drawing.Size(1128, 38);
+            this.ValueTextBox.Size = new System.Drawing.Size(1093, 53);
             this.ValueTextBox.TabIndex = 4;
             // 
             // ContentsTextBox
@@ -112,59 +135,42 @@
             this.ContentsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ContentsTextBox.Location = new System.Drawing.Point(141, 131);
+            this.ContentsTextBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ContentsTextBox.Location = new System.Drawing.Point(199, 141);
             this.ContentsTextBox.Name = "ContentsTextBox";
-            this.ContentsTextBox.Size = new System.Drawing.Size(1365, 38);
+            this.ContentsTextBox.Size = new System.Drawing.Size(1307, 53);
             this.ContentsTextBox.TabIndex = 5;
             this.ContentsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ContentsKeyPress);
             // 
             // StaticCellNameTextBox
             // 
+            this.StaticCellNameTextBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.StaticCellNameTextBox.Location = new System.Drawing.Point(13, 70);
             this.StaticCellNameTextBox.Name = "StaticCellNameTextBox";
             this.StaticCellNameTextBox.ReadOnly = true;
-            this.StaticCellNameTextBox.Size = new System.Drawing.Size(57, 38);
+            this.StaticCellNameTextBox.Size = new System.Drawing.Size(81, 53);
             this.StaticCellNameTextBox.TabIndex = 6;
             this.StaticCellNameTextBox.Text = "Cell";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(294, 70);
+            this.textBox1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(274, 70);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(78, 38);
+            this.textBox1.Size = new System.Drawing.Size(125, 53);
             this.textBox1.TabIndex = 7;
             this.textBox1.Text = "Value";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(13, 131);
+            this.textBox2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(12, 141);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(122, 38);
+            this.textBox2.Size = new System.Drawing.Size(167, 53);
             this.textBox2.TabIndex = 8;
             this.textBox2.Text = "Contents";
-            // 
-            // SaveMenuItem
-            // 
-            this.SaveMenuItem.Name = "SaveMenuItem";
-            this.SaveMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.SaveMenuItem.Text = "Save";
-            this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
-            // 
-            // OpenMenuItem
-            // 
-            this.OpenMenuItem.Name = "OpenMenuItem";
-            this.OpenMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.OpenMenuItem.Text = "Open";
-            this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
-            // 
-            // HelpMenuItem
-            // 
-            this.HelpMenuItem.Name = "HelpMenuItem";
-            this.HelpMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.HelpMenuItem.Text = "Help";
-            this.HelpMenuItem.Click += new System.EventHandler(this.HelpMenuItem_Click);
             // 
             // SpreadsheetGUI
             // 

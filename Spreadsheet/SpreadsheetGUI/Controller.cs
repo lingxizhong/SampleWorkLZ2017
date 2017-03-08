@@ -58,6 +58,8 @@ namespace SpreadsheetGUI
         private void valueRecalculating(string contents)
         {
             window.CellValue = data.GetCellValue(contents).ToString();
+            //Debug Line
+            string debug = window.CellValue;
         }
 
         /// <summary>
