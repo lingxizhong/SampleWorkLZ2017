@@ -225,6 +225,29 @@ namespace SpreadsheetGUI
         /// <param name="e"></param>
         public void OpenMenuItem_Click(object sender, EventArgs e)
         {
+            if (CloseEvent != null)
+            {
+                CloseEvent();
+            }
+
+
+            if(WasChanged == true)
+            {
+                var dioloagYesNo = MessageBox.Show("You have unsaved changes, opening a new file will result in a loss of data."
+                    + "\n Are you sure you want to continue?"
+                   , "WARNING!", MessageBoxButtons.YesNo);
+                if (dioloagYesNo == System.Windows.Forms.DialogResult.No)
+                {
+                    return;
+
+                }
+                
+
+            }
+
+
+
+
             // Open File Explorer, get user input for what to open
             OpenFileDialog Open = new OpenFileDialog();
             Open.Title = "Open";
@@ -233,7 +256,7 @@ namespace SpreadsheetGUI
             Open.DefaultExt = ".ss";
             Open.ShowDialog();
             string filename = Open.FileName;
-            if (filename == null)
+            if (filename == "")
             {
                 return;
             }
@@ -253,7 +276,12 @@ namespace SpreadsheetGUI
                     return;
                 }
             }
+
             // We now have to populate the panel
+            spreadsheetPanel.Clear();
+            ContentsTextBox.Clear();
+            ValueTextBox.Clear();
+
             foreach (string cellNames in cellRecalc)
             {
                 if (CellRecalcEvent != null)
@@ -280,6 +308,13 @@ namespace SpreadsheetGUI
                 + "\n Save will allow you to save files, default in the .ss form. The Open will allow you to open .ss files");
         }
 
+
+
+        /// <summary>
+        /// Checks if the spreadsheet was changed, if so, prompt the user before closing.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseClicked(object sender, FormClosingEventArgs e)
         {
 
@@ -300,6 +335,7 @@ namespace SpreadsheetGUI
                 }
                 else
                 {
+                    
                     e.Cancel = true;
                 }
             }
