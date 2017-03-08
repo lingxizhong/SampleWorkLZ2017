@@ -292,25 +292,17 @@ namespace SpreadsheetGUI
             if (WasChanged == true)
             {
                 
-                var dioloagYesNo = MessageBox.Show("Something was changed, are you sure you want to close?"
+                var dioloagYesNo = MessageBox.Show("You have unsaved changes, are you sure you want to exit?"
                     , "WARNING!", MessageBoxButtons.YesNo);
                 if (dioloagYesNo == System.Windows.Forms.DialogResult.Yes)
                 {
-                    this.Close(); //TODO closek the connection setup form
+                    return; 
                 }
                 else
                 {
-                    return;
+                    e.Cancel = true;
                 }
-
             }
-
-
-
         }
-
-
-
-
     }
 }
