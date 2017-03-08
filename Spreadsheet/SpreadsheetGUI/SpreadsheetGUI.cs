@@ -218,6 +218,18 @@ namespace SpreadsheetGUI
                 OpenEvent(filename);
             }
 
+            // We now have to populate the panel
+            foreach (string cellNames in cellRecalc)
+            {
+                if (CellRecalcEvent != null)
+                {
+                    CellRecalcEvent(cellNames);
+                }
+                int rowRC;
+                int colRC;
+                getRowCol(cellNames, out colRC, out rowRC);
+                spreadsheetPanel.SetValue(colRC, rowRC, CellValue);
+            }
         }
 
         /// <summary>

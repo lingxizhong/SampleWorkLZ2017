@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SS;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SpreadsheetGUI
 {
@@ -86,7 +87,9 @@ namespace SpreadsheetGUI
         /// <param name="filePath"></param>
         private void openFile(string filePath)
         {
-
+            TextReader openFileReader = new StreamReader(filePath);
+            data = new Spreadsheet(openFileReader, new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$")); //HEY FIX THIS REGEX
+            window.cellRecalc = data.GetNamesOfAllNonemptyCells();
         }
 
     }
