@@ -11,7 +11,7 @@ namespace SpreadsheetGUI
 {
     class Controller
     {
-        private SpreadsheetGUI window;
+        private SpreadsheetInterface window;
         private Spreadsheet data;
         private string currentCellName;
         public Controller(SpreadsheetGUI window)

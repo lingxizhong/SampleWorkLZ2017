@@ -39,6 +39,8 @@ namespace SpreadsheetGUI
         /// </summary>
         event Action<string> OpenEvent;
 
+        bool WasChanged { set; }
+
         /// <summary>
         /// Row we are currently selected on 
         /// </summary>
