@@ -80,16 +80,23 @@ namespace SpreadsheetGUI
             TextWriter filePathWriter = new StreamWriter(filePath);
             data.Save(filePathWriter);
         }
-        
+
         /// <summary>
         /// Method for opening files. 
         /// </summary>
         /// <param name="filePath"></param>
         private void openFile(string filePath)
         {
-            TextReader openFileReader = new StreamReader(filePath);
-            data = new Spreadsheet(openFileReader, new Regex(@"^[a-zA-Z]+[1-9]+[0-9]*$")); //HEY FIX THIS REGEX
-            window.cellRecalc = data.GetNamesOfAllNonemptyCells();
+            try
+            {
+                TextReader openFileReader = new StreamReader(filePath);
+                data = new Spreadsheet(openFileReader, new Regex(@"^[a-zA-Z][1-9][0-9]{0,1}$"));
+                window.cellRecalc = data.GetNamesOfAllNonemptyCells();
+            } catch(Exception e)
+            {
+                window.errorProperty = e;
+            }
+            
         }
 
     }

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace SpreadsheetGUI
 {
-    public partial class SpreadsheetGUI : Form
+    public partial class SpreadsheetGUI : Form, SpreadsheetInterface
     {
         public SpreadsheetGUI()
         {
@@ -52,19 +52,19 @@ namespace SpreadsheetGUI
         /// <summary>
         /// Row we are currently selected on 
         /// </summary>
-        private int row;
+        public int row { get; set; }
 
         /// <summary>
         /// Column we are currently selected on 
         /// </summary>
-        private int column;
+        public int column { get; set; }
 
         /// <summary>
         /// This is the New button in the File menu 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void fileMenuNewWindowButton_Click(object sender, EventArgs e)
+        public void fileMenuNewWindowButton_Click(object sender, EventArgs e)
         {
             if (NewEvent != null)
             {
@@ -88,6 +88,10 @@ namespace SpreadsheetGUI
         public IEnumerable<string> cellRecalc { get; set; }
 
         /// <summary>
+        /// If this ain't null, we got a problem :)
+        /// </summary>
+        public Exception errorProperty { get; set; }
+        /// <summary>
         /// Method for the button "Open" in the File menu
         /// </summary>
         public void OpenNew()
@@ -99,9 +103,14 @@ namespace SpreadsheetGUI
         /// Action Listener for when a cell in the panel is clicked. 
         /// </summary>
         /// <param name="sender"></param>
-        private void ssPanelCellChange(SSGui.SpreadsheetPanel sender)
+        public void ssPanelCellChange(SSGui.SpreadsheetPanel sender)
         {
-            sender.GetSelection(out column, out row);
+            int tempCol;
+            int tempRow;
+            sender.GetSelection(out tempCol, out tempRow);
+            column = tempCol;
+            row = tempRow;
+            
             if (SelectionEvent != null)
             {
                 SelectionEvent(column, row);
@@ -117,7 +126,7 @@ namespace SpreadsheetGUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ContentsKeyPress(object sender, KeyPressEventArgs e)
+        public void ContentsKeyPress(object sender, KeyPressEventArgs e)
         {
             // Try block for error catching
             try
@@ -143,18 +152,21 @@ namespace SpreadsheetGUI
                     }
                     ValueTextBox.Text = CellValue;
                 }
-            // Error Catching
-            } catch(InvalidNameException)
+                // Error Catching
+            }
+            catch (InvalidNameException)
             {
                 MessageBox.Show("Please Select a Cell Before Trying to Enter Contents");
-            } catch(CircularException)
+            }
+            catch (CircularException)
             {
                 MessageBox.Show("You have a circular dependency in your spreadsheet");
-            } catch(FormulaFormatException)
+            }
+            catch (FormulaFormatException)
             {
                 MessageBox.Show("Invalid Formula");
             }
-            
+
         }
 
         /// <summary>
@@ -163,7 +175,7 @@ namespace SpreadsheetGUI
         /// <param name="input"></param>
         /// <param name="col"></param>
         /// <param name="row"></param>
-        private void getRowCol(string input, out int col, out int row)
+        public void getRowCol(string input, out int col, out int row)
         {
             char temp = input[0];
             col = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(temp);
@@ -174,17 +186,17 @@ namespace SpreadsheetGUI
 
 
         /// <summary>
-        /// Saves the current Spreadsheet into a (*.ss) file.
+        /// Saves the current Spreadsheet into a file. Default (*.ss)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveMenuItem_Click(object sender, EventArgs e)
+        public void SaveMenuItem_Click(object sender, EventArgs e)
         {
             // Open File Explorer, get user input for where to save
             SaveFileDialog Save = new SaveFileDialog();
             Save.Title = "Save";
             Save.FileName = "Spreadsheet";
-            Save.Filter = "Spreadsheet (*.ss) | *.ss";
+            Save.Filter = "Spreadsheet (*.ss) | *.ss|All files (*.*)|*.*";
             Save.AddExtension = true;
             Save.DefaultExt = ".ss";
             Save.ShowDialog();
@@ -198,26 +210,40 @@ namespace SpreadsheetGUI
 
         /// <summary>
         /// Opens a file explorer, then opens the specified file into the current Spreadsheet GUI. 
-        /// Requires files to be in (*.ss) format. 
+        /// Defaults files to be in (*.ss) format. 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OpenMenuItem_Click(object sender, EventArgs e)
+        public void OpenMenuItem_Click(object sender, EventArgs e)
         {
             // Open File Explorer, get user input for what to open
             OpenFileDialog Open = new OpenFileDialog();
             Open.Title = "Open";
-            Open.Filter = "Spreadsheet (*.ss) | *.ss";
+            Open.Filter = "Spreadsheet (*.ss) | *.ss|All files (*.*)|*.*";
             Open.AddExtension = true;
             Open.DefaultExt = ".ss";
             Open.ShowDialog();
             string filename = Open.FileName;
+            if (filename == null)
+            {
+                return;
+            }
+
             // Call an event to let the controller load the 
-            if(OpenEvent != null)
+            if (OpenEvent != null)
             {
                 OpenEvent(filename);
             }
-
+            // Error checking section
+            if (errorProperty != null)
+            {
+                if (errorProperty is SpreadsheetVersionException)
+                {
+                    MessageBox.Show("You have invalid or out of range cell names in your source file");
+                    errorProperty = null;
+                    return;
+                }
+            }
             // We now have to populate the panel
             foreach (string cellNames in cellRecalc)
             {
@@ -238,7 +264,7 @@ namespace SpreadsheetGUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HelpMenuItem_Click(object sender, EventArgs e)
+        public void HelpMenuItem_Click(object sender, EventArgs e)
         {
 
         }
