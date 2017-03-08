@@ -50,6 +50,10 @@ namespace SpreadsheetGUI
         public event Action<string> OpenEvent;
 
         /// <summary>
+        /// Event for the Close button
+        /// </summary>
+        public event Action CloseEvent;
+        /// <summary>
         /// Row we are currently selected on 
         /// </summary>
         public int row { get; set; }
@@ -58,6 +62,11 @@ namespace SpreadsheetGUI
         /// Column we are currently selected on 
         /// </summary>
         public int column { get; set; }
+
+        /// <summary>
+        /// If the speadsheet was changed, currenlty false
+        /// </summary>
+        public Boolean WasChanged { get; set; }
 
         /// <summary>
         /// This is the New button in the File menu 
@@ -270,5 +279,38 @@ namespace SpreadsheetGUI
                 + "\n Pressing Enter (return) will parse the contents box into the selected cell."
                 + "\n Save will allow you to save files, default in the .ss form. The Open will allow you to open .ss files");
         }
+
+        private void CloseClicked(object sender, FormClosingEventArgs e)
+        {
+
+
+            if (CloseEvent != null)
+            {
+                CloseEvent();
+            }
+
+            if (WasChanged == true)
+            {
+                
+                var dioloagYesNo = MessageBox.Show("Something was changed, are you sure you want to close?"
+                    , "WARNING!", MessageBoxButtons.YesNo);
+                if (dioloagYesNo == System.Windows.Forms.DialogResult.Yes)
+                {
+                    this.Close(); //TODO closek the connection setup form
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+
+
+
+        }
+
+
+
+
     }
 }

@@ -24,6 +24,15 @@ namespace SpreadsheetGUI
             window.CellRecalcEvent += valueRecalculating; // Second phase of the context box enter
             window.SaveEvent += saveFile; // Saving a file
             window.OpenEvent += openFile; // Opening a file
+            window.CloseEvent += closeForm;
+        }
+
+        private void closeForm()
+        {
+            if (data.Changed == true)
+            {
+                window.WasChanged = true;
+            }
         }
 
         /// <summary>
