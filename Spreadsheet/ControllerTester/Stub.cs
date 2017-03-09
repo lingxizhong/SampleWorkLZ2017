@@ -12,73 +12,124 @@ namespace ControllerTester
 {
     public class Stub : Form, ISpreadsheet
     {
-        public string CellContents
+
+
+        public event Action<string> OpenEvent;
+
+        public void FireOpenEvent(string fileName)
         {
-            get
+
+            if (OpenEvent != null)
             {
-                throw new NotImplementedException();
+                OpenEvent(fileName);
             }
 
-            set
+        }
+
+
+        public event Action<string> CellRecalcEvent;
+
+        public void FireCellRecalcEvent(string s)
+        {
+
+            if (CellRecalcEvent != null)
             {
-                throw new NotImplementedException();
+                CellRecalcEvent(s);
             }
+
+        }
+
+
+        public event Action<string> InitialContentChange;
+
+        public void FireInitialContentChange(string s)
+        {
+
+            if (InitialContentChange != null)
+            {
+                InitialContentChange(s);
+            }
+
+        }
+
+        public event Action NewEvent;
+
+        public void FireNewEvent()
+        {
+
+            if (NewEvent != null)
+            {
+                NewEvent();
+            }
+
+        }
+        public event Action<string> SaveEvent;
+
+        public void FireSaveEvent(string s)
+        {
+
+            if (SaveEvent != null)
+            {
+                SaveEvent(s);
+            }
+
+        }
+        public event Action<int, int> SelectionEvent;
+
+        public void FireSelectionEvent(int row, int collumn)
+        {
+
+            if (SelectionEvent != null)
+            {
+                SelectionEvent(row, collumn);
+            }
+
+        }
+
+
+        public event Action WasSomethingChangedInDataEvent;
+
+        public void FireWasSomethingChangedInDataEvent()
+        {
+
+            if (WasSomethingChangedInDataEvent != null)
+            {
+                WasSomethingChangedInDataEvent();
+            }
+
+        }
+
+
+        public string CellContents
+        {
+            get;
+            set;
         }
 
         public IEnumerable<string> cellRecalc
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public string CellValue
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public Exception errorProperty
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public bool WasChanged
         {
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
-        public event Action<string> CellRecalcEvent;
-        public event Action<string> InitialContentChange;
-        public event Action NewEvent;
-        public event Action<string> OpenEvent;
-        public event Action<string> SaveEvent;
-        public event Action<int, int> SelectionEvent;
-        public event Action WasSomethingChangedInDataEvent;
 
         public void OpenNew()
         {
