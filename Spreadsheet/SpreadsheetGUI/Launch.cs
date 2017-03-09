@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/// <summary>
+/// Author: Lingxi Zhong U0770136 and Osama Kergaye PUT YOUR UID HERE
+/// </summary>
 namespace SpreadsheetGUI
 {
     static class Launch

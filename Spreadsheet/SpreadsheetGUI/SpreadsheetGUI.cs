@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 /// <summary>
-/// Implementation for the Spreadsheet GUI done by Lingxi Zhong and Osama Kergaye
+/// Author: Lingxi Zhong U0770136 and Osama Kergaye PUT YOUR UID HERE
 /// </summary>
 namespace SpreadsheetGUI
 {
@@ -311,11 +311,6 @@ namespace SpreadsheetGUI
         /// <param name="e"></param>
         private void CloseClicked(object sender, FormClosingEventArgs e)
         {
-<<<<<<< HEAD
-=======
-
-            
->>>>>>> da1e6124888caeeeba01dce82b75701524fcfa91
             if (CloseEvent != null)
             {
                 CloseEvent();
@@ -337,11 +332,7 @@ namespace SpreadsheetGUI
 
         private void MenuClose(object sender, EventArgs e)
         {
-
-
             this.Close();
-
-
         }
     }
 }

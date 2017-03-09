@@ -7,6 +7,9 @@ using SS;
 using System.IO;
 using System.Text.RegularExpressions;
 
+/// <summary>
+/// Author: Lingxi Zhong U0770136 and Osama Kergaye PUT YOUR UID HERE
+/// </summary>
 namespace SpreadsheetGUI
 {
     class Controller
