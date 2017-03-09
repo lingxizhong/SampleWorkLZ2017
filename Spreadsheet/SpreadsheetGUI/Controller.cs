@@ -35,6 +35,9 @@ namespace SpreadsheetGUI
             if (data.Changed == true)
             {
                 window.WasChanged = true;
+            }else
+            {
+                window.WasChanged = false;
             }
         }
 
