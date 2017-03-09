@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace SpreadsheetGUI
 {
-    public partial class SpreadsheetGUI : Form, SpreadsheetInterface
+    public partial class SpreadsheetGUI : Form, ISpreadsheet
     {
         public SpreadsheetGUI()
         {
