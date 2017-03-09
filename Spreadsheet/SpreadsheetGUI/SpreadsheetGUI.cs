@@ -311,6 +311,11 @@ namespace SpreadsheetGUI
         /// <param name="e"></param>
         private void CloseClicked(object sender, FormClosingEventArgs e)
         {
+<<<<<<< HEAD
+=======
+
+            
+>>>>>>> da1e6124888caeeeba01dce82b75701524fcfa91
             if (CloseEvent != null)
             {
                 CloseEvent();
@@ -328,6 +333,15 @@ namespace SpreadsheetGUI
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void MenuClose(object sender, EventArgs e)
+        {
+
+
+            this.Close();
+
+
         }
     }
 }
