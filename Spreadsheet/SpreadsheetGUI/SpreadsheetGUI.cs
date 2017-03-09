@@ -26,8 +26,6 @@ namespace SpreadsheetGUI
             InitializeComponent();
         }
 
-        
-
         /// <summary>
         /// New Button event
         /// </summary>
@@ -185,7 +183,6 @@ namespace SpreadsheetGUI
             {
                 MessageBox.Show("Invalid Formula");
             }
-
         }
 
         /// <summary>
@@ -282,7 +279,6 @@ namespace SpreadsheetGUI
             spreadsheetPanel.Clear();
             ContentsTextBox.Clear();
             ValueTextBox.Clear();
-
             foreach (string cellNames in cellRecalc)
             {
                 if (CellRecalcEvent != null)
@@ -355,14 +351,10 @@ namespace SpreadsheetGUI
         /// <param name="e"></param>
         private void DoDefaultCell(object sender, EventArgs e)
         {
-
             spreadsheetPanel.SetSelection(0,0);
             CellNameTextBox.Text = "A1";
-
             SelectionEvent?.Invoke(0, 0);
             ContentsTextBox.Focus();
-
-
         }
     }
 }
