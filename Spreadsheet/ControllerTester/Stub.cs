@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ControllerTester
 {
-    public class Stub : Form, ISpreadsheet
+    public class Stub : ISpreadsheet
     {
 
 

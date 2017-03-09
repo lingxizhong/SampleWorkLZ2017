@@ -7,7 +7,7 @@ using SS;
 namespace ControllerTester
 {
     [TestClass]
-    public class ControllerTesting 
+    public class ControllerTesting
     {
         [TestMethod]
         public void TestOpenFile()
@@ -32,10 +32,10 @@ namespace ControllerTester
             Controller five = new Controller(stub);
 
 
-            stub.FireSelectionEvent(0,0);
+            stub.FireSelectionEvent(0, 0);
             stub.FireInitialContentChange("5");
 
-            
+
             stub.FireSelectionEvent(0, 1);
             stub.FireInitialContentChange("5");
 
@@ -100,20 +100,57 @@ namespace ControllerTester
             Stub stub = new Stub();
             Controller five = new Controller(stub);
 
-            stub.FireSelectionEvent(0,0);
+            stub.FireSelectionEvent(0, 0);
             stub.FireInitialContentChange("=A2");
             stub.FireSelectionEvent(0, 0);
 
 
         }
 
+        
 
 
+        [TestMethod]
+        public void TestCellRecalcEvent()
+        {
+            Stub stub = new Stub();
+            Controller five = new Controller(stub);
 
+            stub.FireSelectionEvent(0, 0);
+            stub.FireInitialContentChange("4");
 
+            stub.FireCellRecalcEvent("A1");
 
+            Assert.AreEqual("4",stub.CellValue);
+        }
 
+        [TestMethod]
+        public void TestSaveFileEvent()
+        {
+            Stub stub = new Stub();
+            Controller five = new Controller(stub);
 
+            stub.FireSelectionEvent(0, 0);
+            stub.FireInitialContentChange("4");
+
+            stub.FireSaveEvent("testSheet.ss");
+
+        }
+
+        [TestMethod]
+        public void TestOpenFileError()
+        {
+            Stub stub = new Stub();
+            Controller five = new Controller(stub);
+
+            stub.FireSelectionEvent(0, 0);
+            stub.FireInitialContentChange("4");
+
+            stub.FireOpenEvent(@"C:\t");
+
+            var e = stub.errorProperty;
+
+        }
 
     }
 }
