@@ -20,6 +20,10 @@ namespace SpreadsheetGUI
         public SpreadsheetGUI()
         {
             InitializeComponent();
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 961d9b66fd503eedd40539de1b43c51c4b7908a8
         }
 
         /// <summary>
