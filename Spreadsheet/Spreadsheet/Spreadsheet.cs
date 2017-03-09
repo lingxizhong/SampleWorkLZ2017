@@ -530,6 +530,8 @@ namespace SS
             // If input is a formula
             if (content[0] == '=')
             {
+
+
                 content = content.Remove(0, 1); // We're going to remove the equals sign
                 Formula formulaParse = new Formula(content, s => s.ToUpper(), s => validityCheck(s)); // Create a formula out of it, and make sure its valid
                 list = SetCellContents(name, formulaParse); // We're going to set the contents, and by doing so 

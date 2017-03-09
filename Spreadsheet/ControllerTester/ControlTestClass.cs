@@ -11,9 +11,12 @@ namespace ControllerTester
         [TestMethod]
         public void TestMethod1()
         {
-            Stub test = new Stub();
+            Stub stub = new Stub();
+            Controller five = new Controller(stub);
 
-            Controller five = new Controller(test);
+            stub.FireOpenEvent(@"C:\Users\Osama\Google Drive\Visual Studio 2015\GitRepo\SOL\Spreadsheet\ControllerTester\Spreadsheet.ss");
+
+
         }
 
 

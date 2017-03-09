@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ControllerTester
 {
-    class Stub : ISpreadsheet
+    public class Stub : Form, ISpreadsheet
     {
         public string CellContents
         {
@@ -51,14 +51,6 @@ namespace ControllerTester
             }
         }
 
-        public int column
-        {
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public Exception errorProperty
         {
             get
@@ -66,14 +58,6 @@ namespace ControllerTester
                 throw new NotImplementedException();
             }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int row
-        {
             set
             {
                 throw new NotImplementedException();
@@ -96,42 +80,7 @@ namespace ControllerTester
         public event Action<int, int> SelectionEvent;
         public event Action WasSomethingChangedInDataEvent;
 
-        public void ContentsKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void fileMenuNewWindowButton_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void getRowCol(string input, out int col, out int row)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void HelpMenuItem_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OpenMenuItem_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         public void OpenNew()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SaveMenuItem_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ssPanelCellChange(global::SSGui.SpreadsheetPanel sender)
         {
             throw new NotImplementedException();
         }

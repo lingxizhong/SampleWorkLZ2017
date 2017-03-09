@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SS;
 using System.IO;
 using System.Text.RegularExpressions;
+using Formulas;
 
 /// <summary>
 /// Author: Lingxi Zhong U0770136 and Osama Kergaye u0767339
@@ -58,7 +59,17 @@ namespace SpreadsheetGUI
         {
             currentCellName = getCellName(column, row);
             window.CellValue = data.GetCellValue(currentCellName).ToString();
-            window.CellContents = data.GetCellContents(currentCellName).ToString();
+            
+            var isform = data.GetCellContents(currentCellName);
+            if (isform is Formula)
+            {
+                window.CellContents = "=" + isform.ToString();
+            }
+            else
+            {
+                window.CellContents = data.GetCellContents(currentCellName).ToString();
+
+            }
         }
 
         private void ContentSetting(string contents)
@@ -73,8 +84,6 @@ namespace SpreadsheetGUI
         private void valueRecalculating(string contents)
         {
             window.CellValue = data.GetCellValue(contents).ToString();
-            //Debug Line
-            string debug = window.CellValue;
         }
 
         /// <summary>
