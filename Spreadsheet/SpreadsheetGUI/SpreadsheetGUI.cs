@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/// <summary>
+/// Implementation for the Spreadsheet GUI done by Lingxi Zhong and Osama Kergaye
+/// </summary>
 namespace SpreadsheetGUI
 {
     public partial class SpreadsheetGUI : Form, ISpreadsheet
@@ -229,8 +232,6 @@ namespace SpreadsheetGUI
             {
                 CloseEvent();
             }
-
-
             if(WasChanged == true)
             {
                 var dioloagYesNo = MessageBox.Show("You have unsaved changes, opening a new file will result in a loss of data."
@@ -239,15 +240,8 @@ namespace SpreadsheetGUI
                 if (dioloagYesNo == System.Windows.Forms.DialogResult.No)
                 {
                     return;
-
                 }
-                
-
             }
-
-
-
-
             // Open File Explorer, get user input for what to open
             OpenFileDialog Open = new OpenFileDialog();
             Open.Title = "Open";
@@ -317,16 +311,12 @@ namespace SpreadsheetGUI
         /// <param name="e"></param>
         private void CloseClicked(object sender, FormClosingEventArgs e)
         {
-
-
             if (CloseEvent != null)
             {
                 CloseEvent();
             }
-
             if (WasChanged == true)
             {
-                
                 var dioloagYesNo = MessageBox.Show("You have unsaved changes, are you sure you want to exit?"
                     , "WARNING!", MessageBoxButtons.YesNo);
                 if (dioloagYesNo == System.Windows.Forms.DialogResult.Yes)
@@ -335,7 +325,6 @@ namespace SpreadsheetGUI
                 }
                 else
                 {
-                    
                     e.Cancel = true;
                 }
             }
