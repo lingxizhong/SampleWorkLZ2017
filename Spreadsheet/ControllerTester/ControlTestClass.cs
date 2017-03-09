@@ -81,16 +81,6 @@ namespace ControllerTester
         }
 
 
-        //[TestMethod]
-        //public void TestNewEvent()
-        //{
-        //    Stub stub = new Stub();
-        //    Controller five = new Controller(stub);
-
-        //    stub.FireNewEvent();
-
-
-        //}
 
 
 
@@ -103,6 +93,8 @@ namespace ControllerTester
             stub.FireSelectionEvent(0, 0);
             stub.FireInitialContentChange("=A2");
             stub.FireSelectionEvent(0, 0);
+
+            Assert.AreEqual(stub.CellValue, "SS.FormulaError");
 
 
         }
@@ -124,6 +116,8 @@ namespace ControllerTester
             Assert.AreEqual("4",stub.CellValue);
         }
 
+
+
         [TestMethod]
         public void TestSaveFileEvent()
         {
@@ -134,6 +128,8 @@ namespace ControllerTester
             stub.FireInitialContentChange("4");
 
             stub.FireSaveEvent("testSheet.ss");
+
+
 
         }
 

@@ -22,6 +22,7 @@ namespace SpreadsheetGUI
             var context = SpreadsheetGUIApplicationContext.GetContext();
             SpreadsheetGUIApplicationContext.GetContext().RunNew();
             Application.Run(context);
+            
         }
     }
 }

@@ -23,6 +23,8 @@ namespace SpreadsheetGUI
             
         }
 
+        
+
         /// <summary>
         /// New Button event
         /// </summary>
@@ -332,9 +334,26 @@ namespace SpreadsheetGUI
             }
         }
 
+        /// <summary>
+        /// If the menu close is clicked, starts a system close
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuClose(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void DoDefaultCell(object sender, EventArgs e)
+        {
+
+            spreadsheetPanel.SetSelection(0,0);
+            CellNameTextBox.Text = "A1";
+
+            SelectionEvent?.Invoke(0, 0);
+            ContentsTextBox.Focus();
+
+
         }
     }
 }

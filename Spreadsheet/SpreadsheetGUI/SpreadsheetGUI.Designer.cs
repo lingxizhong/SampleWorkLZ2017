@@ -34,6 +34,7 @@
             this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spreadsheetPanel = new SSGui.SpreadsheetPanel();
             this.CellNameTextBox = new System.Windows.Forms.TextBox();
             this.ValueTextBox = new System.Windows.Forms.TextBox();
@@ -41,7 +42,6 @@
             this.StaticCellNameTextBox = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,30 +72,37 @@
             // fileMenuNewWindowButton
             // 
             this.fileMenuNewWindowButton.Name = "fileMenuNewWindowButton";
-            this.fileMenuNewWindowButton.Size = new System.Drawing.Size(152, 22);
+            this.fileMenuNewWindowButton.Size = new System.Drawing.Size(103, 22);
             this.fileMenuNewWindowButton.Text = "New";
             this.fileMenuNewWindowButton.Click += new System.EventHandler(this.fileMenuNewWindowButton_Click);
             // 
             // OpenMenuItem
             // 
             this.OpenMenuItem.Name = "OpenMenuItem";
-            this.OpenMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenMenuItem.Size = new System.Drawing.Size(103, 22);
             this.OpenMenuItem.Text = "Open";
             this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
             // 
             // SaveMenuItem
             // 
             this.SaveMenuItem.Name = "SaveMenuItem";
-            this.SaveMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SaveMenuItem.Size = new System.Drawing.Size(103, 22);
             this.SaveMenuItem.Text = "Save";
             this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
             // 
             // HelpMenuItem
             // 
             this.HelpMenuItem.Name = "HelpMenuItem";
-            this.HelpMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.HelpMenuItem.Size = new System.Drawing.Size(103, 22);
             this.HelpMenuItem.Text = "Help";
             this.HelpMenuItem.Click += new System.EventHandler(this.HelpMenuItem_Click);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.MenuClose);
             // 
             // spreadsheetPanel
             // 
@@ -181,13 +188,6 @@
             this.textBox2.TabIndex = 8;
             this.textBox2.Text = "Contents";
             // 
-            // closeToolStripMenuItem
-            // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.MenuClose);
-            // 
             // SpreadsheetGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -206,6 +206,7 @@
             this.Name = "SpreadsheetGUI";
             this.Text = "Spreadsheet";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CloseClicked);
+            this.Load += new System.EventHandler(this.DoDefaultCell);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
