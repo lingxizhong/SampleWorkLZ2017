@@ -513,7 +513,11 @@ namespace SS
                 foreach (string s in list)
                 {
                     Cell temp;
-                    data.TryGetValue(s, out temp);
+                    bool check = data.TryGetValue(s, out temp);
+                    if (check == false)
+                    {
+                        temp = new Cell();
+                    }
                     try
                     {
                         temp.value = ((Formula)temp.getContents()).Evaluate(formulaCheck);

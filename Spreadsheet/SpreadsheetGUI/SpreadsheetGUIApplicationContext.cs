@@ -36,13 +36,11 @@ namespace SpreadsheetGUI
         {
             SpreadsheetGUI window = new SpreadsheetGUI();
             new Controller(window);
-
             // Window Counting Increment
             windowCount++;
 
             // Figure out wtf this line does:
             window.FormClosed += (o, e) => { if (--windowCount <= 0) ExitThread(); };
-
             // Runs the form?
             window.Show();
         }
