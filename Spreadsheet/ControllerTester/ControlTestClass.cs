@@ -10,7 +10,7 @@ namespace ControllerTester
     public class ControllerTesting 
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestOpenFile()
         {
             Stub stub = new Stub();
             Controller five = new Controller(stub);
@@ -22,7 +22,7 @@ namespace ControllerTester
         }
 
         [TestMethod]
-        public void TestMethod2()
+        public void TestCellSelectoinAndContent()
         {
             //Spreadsheet data = new Spreadsheet();
             //data.SetContentsOfCell("A1", "hi");
@@ -34,7 +34,6 @@ namespace ControllerTester
 
             stub.FireSelectionEvent(0,0);
             stub.FireInitialContentChange("5");
-            //Assert.IsTrue(stub.CellContents == "5");
 
             
             stub.FireSelectionEvent(0, 1);
@@ -56,10 +55,62 @@ namespace ControllerTester
 
 
             Assert.IsTrue(set.Contains("A1"));
-            Assert.IsTrue(set.Contains("A2"));
+            Assert.IsTrue(set.Contains("A3"));
 
 
         }
+
+
+        [TestMethod]
+        public void TestCloseEvent()
+        {
+            Stub stub = new Stub();
+            Controller five = new Controller(stub);
+
+            stub.FireWasSomethingChangedInDataEvent();
+            Boolean wasTrue = stub.WasChanged;
+            Assert.IsFalse(wasTrue);
+
+            stub.FireSelectionEvent(0, 0);
+            stub.FireInitialContentChange("5");
+            stub.FireWasSomethingChangedInDataEvent();
+
+            wasTrue = stub.WasChanged;
+            Assert.IsTrue(wasTrue);
+
+        }
+
+
+        //[TestMethod]
+        //public void TestNewEvent()
+        //{
+        //    Stub stub = new Stub();
+        //    Controller five = new Controller(stub);
+
+        //    stub.FireNewEvent();
+
+
+        //}
+
+
+
+        [TestMethod]
+        public void TestFormulaSelected()
+        {
+            Stub stub = new Stub();
+            Controller five = new Controller(stub);
+
+            stub.FireSelectionEvent(0,0);
+            stub.FireInitialContentChange("=A2");
+            stub.FireSelectionEvent(0, 0);
+
+
+        }
+
+
+
+
+
 
 
 

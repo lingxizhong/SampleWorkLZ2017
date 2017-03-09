@@ -133,7 +133,10 @@ namespace ControllerTester
 
         public void OpenNew()
         {
-            throw new NotImplementedException();
+           if(NewEvent != null)
+            {
+                NewEvent();
+            }
         }
     }
 }
