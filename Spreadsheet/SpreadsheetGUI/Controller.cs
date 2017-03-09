@@ -17,7 +17,7 @@ namespace SpreadsheetGUI
         private ISpreadsheet window;
         private Spreadsheet data;
         private string currentCellName;
-        public Controller(SpreadsheetGUI window)
+        public Controller(ISpreadsheet window)
         {
             this.data = new Spreadsheet();
             this.window = window;
@@ -27,7 +27,7 @@ namespace SpreadsheetGUI
             window.CellRecalcEvent += valueRecalculating; // Second phase of the context box enter
             window.SaveEvent += saveFile; // Saving a file
             window.OpenEvent += openFile; // Opening a file
-            window.CloseEvent += closeForm;
+            window.WasSomethingChangedInDataEvent += closeForm;
         }
 
         private void closeForm()

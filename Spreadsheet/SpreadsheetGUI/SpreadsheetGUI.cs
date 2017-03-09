@@ -55,7 +55,7 @@ namespace SpreadsheetGUI
         /// <summary>
         /// Event for the Close button
         /// </summary>
-        public event Action CloseEvent;
+        public event Action WasSomethingChangedInDataEvent;
         /// <summary>
         /// Row we are currently selected on 
         /// </summary>
@@ -228,9 +228,9 @@ namespace SpreadsheetGUI
         /// <param name="e"></param>
         public void OpenMenuItem_Click(object sender, EventArgs e)
         {
-            if (CloseEvent != null)
+            if (WasSomethingChangedInDataEvent != null)
             {
-                CloseEvent();
+                WasSomethingChangedInDataEvent();
             }
             if(WasChanged == true)
             {
@@ -311,9 +311,9 @@ namespace SpreadsheetGUI
         /// <param name="e"></param>
         private void CloseClicked(object sender, FormClosingEventArgs e)
         {
-            if (CloseEvent != null)
+            if (WasSomethingChangedInDataEvent != null)
             {
-                CloseEvent();
+                WasSomethingChangedInDataEvent();
             }
             if (WasChanged == true)
             {

@@ -42,6 +42,12 @@ namespace SpreadsheetGUI
         /// </summary>
         event Action<string> OpenEvent;
 
+
+        /// <summary>
+        /// Updates a gui property if the spreadsheet was changed in any way.
+        /// </summary>
+        event Action WasSomethingChangedInDataEvent;
+
         bool WasChanged { set; }
 
         /// <summary>
@@ -134,5 +140,10 @@ namespace SpreadsheetGUI
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void HelpMenuItem_Click(object sender, EventArgs e);
+
+        
+
+
+
     }
 }

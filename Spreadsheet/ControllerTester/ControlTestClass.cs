@@ -1,16 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Windows.Forms;
+using SpreadsheetGUI;
 
-namespace SpreadsheetGUI
+namespace ControllerTester
 {
     [TestClass]
-    public class ControllerTesting
+    public class ControllerTesting 
     {
         [TestMethod]
         public void TestMethod1()
         {
-            SpreadsheetGUI.Controller five = new SpreadsheetGUI.Controller();
+            Stub test = new Stub();
+
+            Controller five = new Controller(test);
         }
+
+
+
+
+
+       
     }
 }
