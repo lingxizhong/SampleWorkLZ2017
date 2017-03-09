@@ -19,10 +19,17 @@ namespace SpreadsheetGUI
         /// </summary>
         private static SpreadsheetGUIApplicationContext context;
 
+        /// <summary>
+        /// Private constructor for singleton pattern
+        /// </summary>
         private SpreadsheetGUIApplicationContext()
         {
         }
 
+        /// <summary>
+        /// Returns the current context of the spreasheet app
+        /// </summary>
+        /// <returns></returns>
         public static SpreadsheetGUIApplicationContext GetContext()
         {
             if (context == null)
@@ -32,6 +39,10 @@ namespace SpreadsheetGUI
             return context;
         }
 
+
+        /// <summary>
+        /// starts a new instance of the spreadsheet app
+        /// </summary>
         public void RunNew()
         {
             SpreadsheetGUI window = new SpreadsheetGUI();

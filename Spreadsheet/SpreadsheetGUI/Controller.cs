@@ -15,9 +15,26 @@ namespace SpreadsheetGUI
 {
     public class Controller
     {
+
+        /// <summary>
+        /// Interface window to be used by controller, memes memes, nobody reads me.. :(
+        /// </summary>
         private ISpreadsheet window;
+
+        /// <summary>
+        /// Model
+        /// </summary>
         private Spreadsheet data;
+
+        /// <summary>
+        /// Current cell sellected, used here for convinence
+        /// </summary>
         private string currentCellName;
+
+        /// <summary>
+        /// Controller constructor for opperating the model and view
+        /// </summary>
+        /// <param name="window"></param>
         public Controller(ISpreadsheet window)
         {
             this.data = new Spreadsheet();
@@ -31,6 +48,10 @@ namespace SpreadsheetGUI
             window.WasSomethingChangedInDataEvent += closeForm;
         }
 
+
+        /// <summary>
+        /// updates the view to know if the spreadsheet was changed
+        /// </summary>
         private void closeForm()
         {
             if (data.Changed == true)
@@ -72,6 +93,11 @@ namespace SpreadsheetGUI
             }
         }
 
+
+        /// <summary>
+        /// gives the view information about what cells need to be redisplayed
+        /// </summary>
+        /// <param name="contents"></param>
         private void ContentSetting(string contents)
         {
             window.cellRecalc = data.SetContentsOfCell(currentCellName, contents);

@@ -13,7 +13,7 @@ namespace ControllerTester
     public class Stub : ISpreadsheet
     {
 
-
+        
         public event Action<string> OpenEvent;
 
         public void FireOpenEvent(string fileName)

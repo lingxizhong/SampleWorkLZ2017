@@ -17,6 +17,10 @@ namespace SpreadsheetGUI
 {
     public partial class SpreadsheetGUI : Form, ISpreadsheet
     {
+
+        /// <summary>
+        /// start up construtor
+        /// </summary>
         public SpreadsheetGUI()
         {
             InitializeComponent();
@@ -343,6 +347,12 @@ namespace SpreadsheetGUI
             this.Close();
         }
 
+
+        /// <summary>
+        /// Default load behavoir, to auto select A1 as the first cell
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DoDefaultCell(object sender, EventArgs e)
         {
 
