@@ -270,9 +270,13 @@ namespace SpreadsheetGUI
                 if (errorProperty is SpreadsheetVersionException)
                 {
                     MessageBox.Show("You have invalid or out of range cell names in your source file");
-                    errorProperty = null;
-                    return;
                 }
+                if(errorProperty is System.Xml.XmlException)
+                {
+                    MessageBox.Show("Error: Invalid File Type");
+                }
+                errorProperty = null;
+                return;
             }
 
             // We now have to populate the panel
