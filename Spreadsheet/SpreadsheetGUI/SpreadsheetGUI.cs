@@ -20,15 +20,6 @@ namespace SpreadsheetGUI
         public SpreadsheetGUI()
         {
             InitializeComponent();
-            ssPanelCellChange(spreadsheetPanel);
-            //int row;
-            //int col;
-            //spreadsheetPanel.GetSelection(out row, out col);
-
-            if (SelectionEvent != null)
-            {
-                SelectionEvent(0, 0);
-            }
         }
 
         /// <summary>
