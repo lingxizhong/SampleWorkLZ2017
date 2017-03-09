@@ -10,7 +10,7 @@ using System.Windows.Forms;
 /// </summary>
 namespace SpreadsheetGUI 
 {
-    interface ISpreadsheet
+    public interface ISpreadsheet
     {
         /// <summary>
         /// New Button event

@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Windows.Forms;
 
-namespace ControllerTester
+namespace SpreadsheetGUI
 {
     [TestClass]
     public class ControllerTesting
@@ -9,6 +10,7 @@ namespace ControllerTester
         [TestMethod]
         public void TestMethod1()
         {
+            SpreadsheetGUI.Controller five = new SpreadsheetGUI.Controller();
         }
     }
 }

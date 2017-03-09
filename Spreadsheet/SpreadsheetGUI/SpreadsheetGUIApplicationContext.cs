@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SpreadsheetGUI
 {
-    class SpreadsheetGUIApplicationContext : ApplicationContext
+    public class SpreadsheetGUIApplicationContext : ApplicationContext
     {
         /// <summary>
         /// Number of open Forms

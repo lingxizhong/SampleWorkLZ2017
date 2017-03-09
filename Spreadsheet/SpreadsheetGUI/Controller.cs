@@ -8,11 +8,11 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 /// <summary>
-/// Author: Lingxi Zhong U0770136 and Osama Kergaye PUT YOUR UID HERE
+/// Author: Lingxi Zhong U0770136 and Osama Kergaye u0767339
 /// </summary>
 namespace SpreadsheetGUI
 {
-    class Controller
+    public class Controller
     {
         private ISpreadsheet window;
         private Spreadsheet data;

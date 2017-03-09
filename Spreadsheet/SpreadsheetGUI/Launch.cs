@@ -9,7 +9,7 @@ using System.Windows.Forms;
 /// </summary>
 namespace SpreadsheetGUI
 {
-    static class Launch
+    public static class Launch
     {
         /// <summary>
         /// The main entry point for the application.
