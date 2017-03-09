@@ -130,6 +130,7 @@ namespace SpreadsheetGUI
             CellNameTextBox.Text = "" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[column] + (row + 1);
             ValueTextBox.Text = CellValue;
             ContentsTextBox.Text = CellContents;
+            ContentsTextBox.Focus();
         }
 
 
