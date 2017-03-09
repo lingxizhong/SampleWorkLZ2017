@@ -318,7 +318,7 @@ namespace SpreadsheetGUI
         private void CloseClicked(object sender, FormClosingEventArgs e)
         {
 
-
+            
             if (CloseEvent != null)
             {
                 CloseEvent();
@@ -339,6 +339,15 @@ namespace SpreadsheetGUI
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void MenuClose(object sender, EventArgs e)
+        {
+
+
+            this.Close();
+
+
         }
     }
 }
