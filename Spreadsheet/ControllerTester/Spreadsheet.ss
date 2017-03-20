@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?><spreadsheet IsValid=".*?"><cell name="A1" contents="1"></cell><cell name="B1" contents="2"></cell><cell name="C1" contents="3"></cell><cell name="D1" contents="=A1+B1+C1"></cell></spreadsheet>
